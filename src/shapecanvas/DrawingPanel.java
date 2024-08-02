@@ -19,6 +19,8 @@ public class DrawingPanel extends JPanel {
 	private Color defaultStrokeColor;
 	private Color defaultFillColor;
 	private float defaultStrokeWidth;
+	private int prevX;
+	private int prevY;
 	
 	public DrawingPanel() {
 		this.rModel = new RectangleModel();
@@ -26,6 +28,8 @@ public class DrawingPanel extends JPanel {
 		defaultStrokeColor = Color.BLACK;
 		defaultFillColor = Color.LIGHT_GRAY;
 		defaultStrokeWidth = 3.0f;
+		prevX = 0;
+		prevY = 0;
 	}
 	
 	public void setNewStartPoint(Point startPoint) {
@@ -54,12 +58,11 @@ public class DrawingPanel extends JPanel {
 		}
 		repaint();
 		rModel.setSelected(currSelected);
-//		System.out.println(currSelected);
 		return rModel.getSelected();
 	}
 	
 	public void expandShape(MouseEvent e) {
-		// this update the primitive rectangle while it's
+		// this updates the primitive rectangle while it's
 		// first being drawn
 		int x = Math.min(startPoint.x, e.getX());
 		int y = Math.min(startPoint.y, e.getY());
@@ -69,6 +72,24 @@ public class DrawingPanel extends JPanel {
 		shape.setBounds(x, y, width, height);
 		
 		repaint();
+	}
+	
+	public void setMoveShapePreviousPoint(MouseEvent e) {
+//		System.out.println("move shape prev point");
+		if(rModel.getSelected() != null) {
+			Rectangle r = rModel.getSelected().getRectangle();
+			prevX = r.x - e.getX();
+			prevY = r.y - e.getY();
+		}
+	}
+	
+	public void moveShape(MouseEvent e) {
+//		System.out.println("move shape");
+		if(rModel.getSelected() != null) {
+			Rectangle r = rModel.getSelected().getRectangle();
+			r.setLocation(e.getX() + prevX, e.getY() + prevY);
+			repaint();
+		}
 	}
 	
 	// move into rModel

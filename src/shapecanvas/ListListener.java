@@ -15,8 +15,8 @@ public class ListListener implements ListSelectionListener {
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		// TODO Auto-generated method stub
-		JList source = (JList)e.getSource();
+		@SuppressWarnings("unchecked")
+		JList<NamedRectangle> source = (JList<NamedRectangle>)e.getSource();
 		NamedRectangle selected = (NamedRectangle)source.getSelectedValue();
 		d.setSelectedShape(selected);
 		i.setSelected(selected);

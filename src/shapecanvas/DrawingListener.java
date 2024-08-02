@@ -29,7 +29,7 @@ class DrawingListener extends MouseAdapter {
 	}
 	
 	public void mouseReleased(MouseEvent e){
-		drawP.completeShape();
-		list.updateList(drawP.getShapes(), selected);
+		NamedRectangle temp = drawP.completeShape();
+		list.updateList(drawP.getShapes(), temp != null ? temp : selected);
 	}
 }

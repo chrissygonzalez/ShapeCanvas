@@ -18,12 +18,23 @@ public class RectangleModel {
 		rectangles.add(r);
 	}
 	
+	public void addRectangle(NamedRectangle r) {
+		rectangles.add(r);
+	}
+	
 	public void updateRectangle(NamedRectangle r, int x, int y, int width, int height) {
 		r.getRectangle().setBounds(x, y, width, height);
 	}
 	
 	public void setSelected(NamedRectangle r) {
+		if(selected != null && !selected.equals(r)) {
+			selected.setSelected(false);
+		}
+
 		this.selected = r;
+		if(r != null) {
+			selected.setSelected(true);
+		}
 	}
 	
 	public NamedRectangle getSelected() {

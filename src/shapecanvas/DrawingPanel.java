@@ -33,10 +33,16 @@ public class DrawingPanel extends JPanel {
 		this.shape = new Rectangle();
 	}
 	
+	public void setSelectedShape(NamedRectangle r) {
+		rModel.setSelected(r);
+		repaint();
+	}
+	
 	public NamedRectangle getSelectedShape() {		
 		ArrayList<NamedRectangle> rects = rModel.getRectangles();
 		NamedRectangle currSelected = null;
-		
+
+		// move into rModel?
 		for(int i = rects.size() - 1; i >= 0; i--) {
 			NamedRectangle r = rects.get(i);
 			if(r.getRectangle().contains(startPoint) && currSelected == null) {
@@ -48,10 +54,13 @@ public class DrawingPanel extends JPanel {
 		}
 		repaint();
 		rModel.setSelected(currSelected);
+//		System.out.println(currSelected);
 		return rModel.getSelected();
 	}
 	
 	public void expandShape(MouseEvent e) {
+		// this update the primitive rectangle while it's
+		// first being drawn
 		int x = Math.min(startPoint.x, e.getX());
 		int y = Math.min(startPoint.y, e.getY());
 		int width = Math.abs(startPoint.x - e.getX());
@@ -62,9 +71,10 @@ public class DrawingPanel extends JPanel {
 		repaint();
 	}
 	
+	// move into rModel
 	public void modifyShape(String name, int value) {
-		NamedRectangle shape = rModel.getSelected();
-		Rectangle bounds = shape.getRectangle().getBounds();
+		NamedRectangle selected = rModel.getSelected();
+		Rectangle bounds = selected.getRectangle().getBounds();
 		int x = bounds.x;
 		int y = bounds.y;
 		int width = bounds.width;
@@ -81,17 +91,20 @@ public class DrawingPanel extends JPanel {
 				height = value; break;
 		}
 		
-		shape.getRectangle().setBounds(x, y, width, height);
+		selected.getRectangle().setBounds(x, y, width, height);
 
 		repaint();
 	}
 	
-	public void completeShape() {
+	public NamedRectangle completeShape() {
+		NamedRectangle temp = null;
 		if (shape.width != 0 || shape.height != 0){
-			rModel.addRectangle(defaultStrokeColor, defaultFillColor, defaultStrokeWidth, shape);
+			temp = new NamedRectangle(defaultStrokeColor, defaultFillColor, defaultStrokeWidth, shape);
+			rModel.addRectangle(temp);
 		}
 		shape = null;
 		repaint();
+		return temp;
 	}
 	
 	public ArrayList<NamedRectangle> getShapes(){

@@ -7,12 +7,13 @@ import javax.swing.JPanel;
 
 public class ShapeCanvasPanel extends JPanel {
 	public ShapeCanvasPanel() {
-//		RectangleModel rModel = new RectangleModel();
 		DrawingPanel d = new DrawingPanel();
 		
 		InspectorActionListener iListen = new InspectorActionListener(d);
 		InspectorPanel i = new InspectorPanel(iListen);
-		ListPanel l = new ListPanel();
+		
+		ListListener lListen = new ListListener(d, i);
+		ListPanel l = new ListPanel(lListen);
 		
 		DrawingListener dListen = new DrawingListener(i, l, d);
 		d.addMouseListener(dListen);

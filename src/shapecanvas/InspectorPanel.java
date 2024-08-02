@@ -8,14 +8,19 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class InspectorPanel extends JPanel {
+	private InspectorActionListener iListen;
 	private NamedRectangle selected;
 	private JTextField xField;
 	private JTextField yField;
 	private JTextField widthField;
 	private JTextField heightField;
-//	private JButton updateButton;
 	
 	public InspectorPanel(InspectorActionListener iListen) {
+		this.iListen = iListen;
+		createAndShowGui();
+	}
+	
+	public void createAndShowGui() {
 		this.setLayout(new GridLayout(5, 1));
 		
 		JLabel xLabel = new JLabel("x: ");
@@ -62,14 +67,10 @@ public class InspectorPanel extends JPanel {
 		fourth.add(heightLabel);
 		fourth.add(heightField);
 		
-//		updateButton = new JButton("Update shape");
-//		updateButton.addActionListener(iListen);
-		
 		add(first);
 		add(second);
 		add(third);
 		add(fourth);
-//		add(updateButton);
 	}
 	
 	public void setSelected(NamedRectangle r) {		

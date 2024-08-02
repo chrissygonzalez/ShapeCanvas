@@ -8,14 +8,18 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionListener;
 
 public class ListPanel extends JPanel {
 	private JList<NamedRectangle> list;
 	private JScrollPane scrollPane;
 	private DefaultListModel<NamedRectangle> listModel;
+	private ListSelectionListener lListen;
 	
-	public ListPanel() {
+	public ListPanel(ListSelectionListener lListen) {
+		this.lListen = lListen;
 		list = new JList<NamedRectangle>();
+		list.addListSelectionListener(lListen);
 		listModel = new DefaultListModel<NamedRectangle>();
 		
 		scrollPane = new JScrollPane(list);
@@ -33,7 +37,11 @@ public class ListPanel extends JPanel {
 		    if(shapes.get(i).equals(selected)) selectedIndex = shapes.size() - i - 1;
 		}
 		list.setModel(listModel);
-		if(selectedIndex != null) list.setSelectedIndex(selectedIndex);
+		if(selectedIndex != null) {
+			list.setSelectedIndex(selectedIndex);
+		} else {
+			list.clearSelection();
+		}
 	}
 	
 }

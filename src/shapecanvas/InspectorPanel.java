@@ -1,11 +1,15 @@
 package shapecanvas;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-//import javax.swing.JButton;
+import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 public class InspectorPanel extends JPanel {
 	private InspectorActionListener iListen;
@@ -14,14 +18,25 @@ public class InspectorPanel extends JPanel {
 	private JTextField yField;
 	private JTextField widthField;
 	private JTextField heightField;
+	private JTextField strokeWidthField;
+	private ColorComboBox strokeColor;
+	private ColorComboBox fillColor;
+	private ArrayList<Color> colors;
+	private ColorComboActionListener cListen;
 	
-	public InspectorPanel(InspectorActionListener iListen) {
+	public InspectorPanel(InspectorActionListener iListen, ArrayList<Color> colors, ColorComboActionListener cListen) {
+		this.colors = colors;
 		this.iListen = iListen;
+		this.cListen = cListen;
+		
+		Border blackline = BorderFactory.createTitledBorder("Selected shape");
+		setBorder(blackline);
+		
 		createAndShowGui();
 	}
 	
 	public void createAndShowGui() {
-		this.setLayout(new GridLayout(5, 1));
+		this.setLayout(new GridLayout(7, 1));
 		
 		JLabel xLabel = new JLabel("x: ");
 		xField = new JTextField(5);
@@ -51,6 +66,19 @@ public class InspectorPanel extends JPanel {
 		heightField.addActionListener(iListen);
 		heightField.addFocusListener(iListen);
 		
+		JLabel strokeWidthLabel = new JLabel("stroke width: ");
+		strokeWidthField = new JTextField(5);
+		strokeWidthField.setActionCommand("strokeWidth");
+		strokeWidthField.setName("strokeWidth");
+		strokeWidthField.addActionListener(iListen);
+		strokeWidthField.addFocusListener(iListen);
+		
+		JLabel strokeColorLabel = new JLabel("stroke color: ");
+		strokeColor = new ColorComboBox(colors, cListen, "strokeColor");
+		
+		JLabel fillColorLabel = new JLabel("fill color: ");
+		fillColor = new ColorComboBox(colors, cListen, "fillColor");
+		
 		JPanel first = new JPanel();
 		first.add(xLabel);
 		first.add(xField);
@@ -67,19 +95,37 @@ public class InspectorPanel extends JPanel {
 		fourth.add(heightLabel);
 		fourth.add(heightField);
 		
+		JPanel fifth = new JPanel();
+		fifth.add(strokeWidthLabel);
+		fifth.add(strokeWidthField);
+		
+		JPanel sixth = new JPanel();
+		sixth.add(strokeColorLabel);
+		sixth.add(strokeColor);
+		
+		JPanel seventh = new JPanel();
+		seventh.add(fillColorLabel);
+		seventh.add(fillColor);
+		
 		add(first);
 		add(second);
 		add(third);
 		add(fourth);
+		add(fifth);
+		add(sixth);
+		add(seventh);
 	}
 	
 	public void setSelected(NamedRectangle r) {		
 		selected = r;
-		if(selected == null ) {
+		if(selected == null) {
 			xField.setText("");
 			yField.setText("");
 			widthField.setText("");
 			heightField.setText("");
+			strokeWidthField.setText("");
+			strokeColor.setSelectedColor(Color.BLACK);
+			fillColor.setSelectedColor(Color.BLACK);
 		} else {
 			xField.setText(String.valueOf(selected.getRectangle().getX()));
 			yField.setText(String.valueOf(selected.getRectangle().getY()));
@@ -87,6 +133,9 @@ public class InspectorPanel extends JPanel {
 			
 			widthField.setText(String.valueOf(size.width));
 			heightField.setText(String.valueOf(size.height));
+			strokeWidthField.setText(String.valueOf(selected.getStrokeWidth()));
+			strokeColor.setSelectedColor(selected.getStrokeColorValue());
+			fillColor.setSelectedColor(selected.getFillColor());
 		}
 	}
 }

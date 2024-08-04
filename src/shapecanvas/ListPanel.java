@@ -4,10 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionListener;
 
 public class ListPanel extends JPanel {
@@ -22,7 +24,8 @@ public class ListPanel extends JPanel {
 		
 		scrollPane = new JScrollPane(list);
 		scrollPane.setPreferredSize(new Dimension(110, 175));;
-
+		Border blackline = BorderFactory.createTitledBorder("All shapes");
+		setBorder(blackline);
 		add(scrollPane, BorderLayout.CENTER);
 	}
 	

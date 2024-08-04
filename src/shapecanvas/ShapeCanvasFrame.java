@@ -16,7 +16,7 @@ public class ShapeCanvasFrame extends JFrame {
 		JFrame f = new JFrame("Shape Canvas");
 		ShapeCanvasPanel s = new ShapeCanvasPanel();
 		f.getContentPane().add(s);
-		f.setSize(400, 400);
+		f.setSize(800, 600);
 		f.setVisible(true);
 		f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	}

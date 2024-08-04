@@ -117,6 +117,23 @@ public class DrawingPanel extends JPanel {
 		repaint();
 	}
 	
+	public void modifyShapeColors(String property, Color value) {
+		if(rModel.getSelected() == null) return;
+		if(property.equals("strokeColor")) {
+			rModel.getSelected().setStrokeColor(value);
+		} else {
+			rModel.getSelected().setFillColor(value);
+		}
+		repaint();
+	}
+	
+	public void modifyShape(String name, float value) {
+		System.out.println("float modifyShape");
+		NamedRectangle selected = rModel.getSelected();
+		selected.setStrokeWidth(value);
+		repaint();
+	}
+	
 	public NamedRectangle completeShape() {
 		NamedRectangle temp = null;
 		if (shape.width != 0 || shape.height != 0){

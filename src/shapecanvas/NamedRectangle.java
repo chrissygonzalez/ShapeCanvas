@@ -43,6 +43,10 @@ public class NamedRectangle extends Rectangle {
 		return this.strokeColor;
 	}
 	
+	public Color getStrokeColorValue() {
+		return this.strokeColor;
+	}
+	
 	public void setFillColor(Color c) {
 		this.fillColor = c;
 	}
@@ -51,9 +55,9 @@ public class NamedRectangle extends Rectangle {
 		return this.fillColor;
 	}
 	
-//	public float getStrokeWidth() {
-//		return this.strokeWidth;
-//	}
+	public float getStrokeWidth() {
+		return this.strokeWidth;
+	}
 	
 	public void setStrokeWidth(float s) {
 		this.strokeWidth = s;
@@ -62,10 +66,6 @@ public class NamedRectangle extends Rectangle {
 	public Rectangle getRectangle() {
 		return this.rect;
 	}
-	
-//	public boolean getSelected() {
-//		return this.selected;
-//	}
 	
 	public void setSelected(boolean s) {
 		this.selected = s;

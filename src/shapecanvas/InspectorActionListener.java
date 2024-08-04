@@ -14,13 +14,19 @@ public class InspectorActionListener extends FocusAdapter implements ActionListe
 		this.d = d;
 	}
 
+	// update these to to take stroke weight
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String fieldText = ((JTextField) e.getSource()).getText();
 		
 		if(!fieldText.isEmpty()) {
-			Double value = Double.parseDouble(fieldText);
-			d.modifyShape(e.getActionCommand(), (int)Math.round(value));
+			if(e.getActionCommand() == "strokeWidth") {
+				Float value = Float.parseFloat(fieldText);
+				d.modifyShape(e.getActionCommand(), value);
+			} else {
+				Double value = Double.parseDouble(fieldText);
+				d.modifyShape(e.getActionCommand(), (int)Math.round(value));
+			}
 		}
 	}
 
@@ -29,8 +35,15 @@ public class InspectorActionListener extends FocusAdapter implements ActionListe
 		String fieldText = ((JTextField) e.getSource()).getText();
 		
 		if(!fieldText.isEmpty()) {
-			Double value = Double.parseDouble(fieldText);
-			d.modifyShape(e.getComponent().getName(), (int)Math.round(value));
+			String fieldName = e.getComponent().getName();
+		
+			if(fieldName == "strokeWidth") {
+				Float value = Float.parseFloat(fieldText);
+				d.modifyShape(fieldName, value);
+			} else {
+				Double value = Double.parseDouble(fieldText);
+				d.modifyShape(fieldName, (int)Math.round(value));
+			}
 		}
 	}
 	

@@ -41,49 +41,29 @@ public class DrawingPanel extends JPanel {
 		this.shape = new Rectangle();
 	}
 	
-	public void setSelectedShape(NamedRectangle r) {
-		rModel.setSelected(r);
-		repaint();
+	public void setStrokeWeight(float value) {
+		defaultStrokeWidth = value;
 	}
 	
 	public void setToolMode(String mode) {
 		this.toolMode = mode;
 	}
 	
-	public NamedRectangle getSelectedShape() {		
-		ArrayList<NamedRectangle> rects = rModel.getRectangles();
-		NamedRectangle currSelected = null;
-
-		// move into rModel?
-		for(int i = rects.size() - 1; i >= 0; i--) {
-			NamedRectangle r = rects.get(i);
-			if(r.getRectangle().contains(startPoint) && currSelected == null && toolMode.equals("select")) {
-				r.setSelected(true);
-				currSelected = r;
-			} else {
-				r.setSelected(false);
-			}
-		}
-		repaint();
-		rModel.setSelected(currSelected);
-		return rModel.getSelected();
+	public ArrayList<NamedRectangle> getShapes(){
+		return rModel.getRectangles();
 	}
 	
-	public void expandShape(MouseEvent e) {
-		// this updates the primitive rectangle while it's
-		// first being drawn
-		int x = Math.min(startPoint.x, e.getX());
-		int y = Math.min(startPoint.y, e.getY());
-		int width = Math.abs(startPoint.x - e.getX());
-		int height = Math.abs(startPoint.y - e.getY());
-
-		shape.setBounds(x, y, width, height);
-		
+	public NamedRectangle getSelectedShape() {		
+		if(!toolMode.equals("select")) return null;
+		return rModel.checkIfSelected(startPoint);
+	}
+	
+	public void setSelectedShape(NamedRectangle r) {
+		rModel.setSelected(r);
 		repaint();
 	}
 	
 	public void setMoveShapePreviousPoint(MouseEvent e) {
-//		System.out.println("move shape prev point");
 		if(rModel.getSelected() != null) {
 			Rectangle r = rModel.getSelected().getRectangle();
 			prevX = r.x - e.getX();
@@ -92,7 +72,6 @@ public class DrawingPanel extends JPanel {
 	}
 	
 	public void moveShape(MouseEvent e) {
-//		System.out.println("move shape");
 		if(rModel.getSelected() != null) {
 			Rectangle r = rModel.getSelected().getRectangle();
 			r.setLocation(e.getX() + prevX, e.getY() + prevY);
@@ -100,56 +79,14 @@ public class DrawingPanel extends JPanel {
 		}
 	}
 	
-	// move into rModel
-	public void modifyShape(String name, int value) {
-		NamedRectangle selected = rModel.getSelected();
-		Rectangle bounds = selected.getRectangle().getBounds();
-		int x = bounds.x;
-		int y = bounds.y;
-		int width = bounds.width;
-		int height = bounds.height;
-		
-		switch(name) {
-			case "x":
-				x = value; break;
-			case "y":
-				y = value; break;
-			case "width":
-				width = value; break;
-			case "height":
-				height = value; break;
-		}
-		
-		selected.getRectangle().setBounds(x, y, width, height);
+	public void expandShape(MouseEvent e) {
+		int x = Math.min(startPoint.x, e.getX());
+		int y = Math.min(startPoint.y, e.getY());
+		int width = Math.abs(startPoint.x - e.getX());
+		int height = Math.abs(startPoint.y - e.getY());
 
-		repaint();
-	}
-	
-	public void setStrokeWeight(float value) {
-		defaultStrokeWidth = value;
-	}
-	
-	public void modifyShapeColors(String property, Color value) {
-		if(property.equals("drawStrokeColor")) {
-			defaultStrokeColor = value;
-		} else if (property.equals("drawFillColor")) {
-			defaultFillColor = value;
-		}
+		shape.setBounds(x, y, width, height);
 		
-		if(rModel.getSelected() == null) return;
-		
-		if(property.equals("strokeColor")) {
-			rModel.getSelected().setStrokeColor(value);
-		} else  {
-			rModel.getSelected().setFillColor(value);
-		}
-		repaint();
-	}
-	
-	public void modifyShape(String name, float value) {
-//		System.out.println("float modifyShape");
-		NamedRectangle selected = rModel.getSelected();
-		selected.setStrokeWidth(value);
 		repaint();
 	}
 	
@@ -164,8 +101,27 @@ public class DrawingPanel extends JPanel {
 		return temp;
 	}
 	
-	public ArrayList<NamedRectangle> getShapes(){
-		return rModel.getRectangles();
+	public void modifyShape(String name, int value) {
+		rModel.modifyShape(name, value);
+		repaint();
+	}
+	
+	public void updateStrokeWeight(float value) {
+		rModel.updateRectangleStrokeWeight(value);
+		repaint();
+	}
+	
+	public void updateDefaultColors(String property, Color value) {
+		if(property.equals("drawStrokeColor")) {
+			defaultStrokeColor = value;
+		} else if (property.equals("drawFillColor")) {
+			defaultFillColor = value;
+		}
+	}
+	
+	public void modifyShapeColors(String property, Color value) {
+		rModel.updateRectangleColors(property, value);
+		repaint();
 	}
 	
 	@Override

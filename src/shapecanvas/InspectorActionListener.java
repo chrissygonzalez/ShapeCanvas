@@ -21,7 +21,7 @@ public class InspectorActionListener extends FocusAdapter implements ActionListe
 		if(!fieldText.isEmpty()) {
 			if(e.getActionCommand() == "strokeWidth") {
 				Float value = Float.parseFloat(fieldText);
-				d.modifyShape(e.getActionCommand(), value);
+				d.updateStrokeWeight(value);
 			} else {
 				Double value = Double.parseDouble(fieldText);
 				d.modifyShape(e.getActionCommand(), (int)Math.round(value));
@@ -38,7 +38,7 @@ public class InspectorActionListener extends FocusAdapter implements ActionListe
 		
 			if(fieldName == "strokeWidth") {
 				Float value = Float.parseFloat(fieldText);
-				d.modifyShape(fieldName, value);
+				d.updateStrokeWeight(value);
 			} else {
 				Double value = Double.parseDouble(fieldText);
 				d.modifyShape(fieldName, (int)Math.round(value));

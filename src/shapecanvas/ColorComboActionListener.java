@@ -21,7 +21,12 @@ class ColorComboActionListener implements ActionListener {
     	JComboBox<Integer> combo = (JComboBox)e.getSource();
     	Integer selected = (Integer)combo.getSelectedItem();
     	Color selectedColor = colors.get(selected);
-    	d.modifyShapeColors(e.getActionCommand(), selectedColor);
+    	
+    	if(e.getActionCommand() == "drawStrokeColor" || e.getActionCommand() == "drawFillColor") {
+    		d.updateDefaultColors(e.getActionCommand(), selectedColor);
+    	} else {
+    		d.modifyShapeColors(e.getActionCommand(), selectedColor);
+    	}
 	}
 	
 }

@@ -52,7 +52,6 @@ class ColorComboBox extends JPanel {
         
         colorCombos.setSelectedIndex(0);
         colorCombos.setActionCommand(actionCommand);
-//        colorCombos.addActionListener(cListen);
         colorCombos.setRenderer(renderer);
         add(colorCombos);
 	}

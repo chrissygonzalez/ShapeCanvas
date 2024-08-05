@@ -18,7 +18,6 @@ public class ToolListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getActionCommand());
 		if(e.getActionCommand() == "draw") {
 			d.setSelectedShape(null);
 			d.setToolMode("draw");

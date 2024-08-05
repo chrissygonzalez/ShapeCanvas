@@ -2,6 +2,7 @@ package shapecanvas;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -30,16 +31,18 @@ public class ListPanel extends JPanel {
 		setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0, 10, 10, 10),  blackline));
 	}
 	
-	public void addListeners(ListSelectionListener lListen) {
+	public void addListeners(ListSelectionListener lListen, ListMouseAdapter lm) {
 		list.addListSelectionListener(lListen);
+		list.addMouseListener(lm);
+		list.addMouseMotionListener(lm);
 	}
 	
 	public void updateList(ArrayList<NamedRectangle> shapes, NamedRectangle selected) {
 		listModel.clear();
 		Integer selectedIndex = null;
-		for (int i = shapes.size() - 1; i >= 0; i--){
+		for (int i = 0; i < shapes.size(); i++){
 		    listModel.addElement(shapes.get(i));
-		    if(shapes.get(i).equals(selected)) selectedIndex = shapes.size() - i - 1;
+		    if(shapes.get(i).equals(selected)) selectedIndex = i;
 		}
 		list.setModel(listModel);
 		if(selectedIndex != null) {
@@ -61,4 +64,27 @@ public class ListPanel extends JPanel {
 		}
 	}
 	
+	public int getSelectedIndex() {
+		return list.getSelectedIndex();
+	}
+	
+	public int getCurrentIndex(Point p) {
+		return list.locationToIndex(p);
+	}
+	
+	public NamedRectangle getListModelIndex(int i) {
+		return listModel.get(i);
+	}
+	
+	public void removeFromListModel(int i) {
+		listModel.remove(i);
+	}
+	
+	public void addToListModel(int i, NamedRectangle r) {
+		listModel.add(i, r);
+	}
+	
+	public DefaultListModel<NamedRectangle> getListModel(){
+		return listModel;
+	}
 }

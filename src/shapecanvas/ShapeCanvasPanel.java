@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 
 public class ShapeCanvasPanel extends JPanel {
@@ -30,10 +31,11 @@ public class ShapeCanvasPanel extends JPanel {
 		ToolListener tListen = new ToolListener(d, i, l);
 		ListListener lListen = new ListListener(d, i, t);
 		DrawingListener dListen = new DrawingListener(i, l, d, t);
+		ListMouseAdapter lm = new ListMouseAdapter(l, d);
 		
 		i.addListeners(iListen, cListen);
 		t.addListeners(tListen, cListen);
-		l.addListeners(lListen);
+		l.addListeners(lListen, lm);
 		d.addListeners(dListen);
 		
 		createAndShowGui();

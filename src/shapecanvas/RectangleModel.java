@@ -16,11 +16,11 @@ public class RectangleModel {
 	
 	public void addRectangle(Color strokeColor, Color fillColor, float strokeWidth, Rectangle rect) {
 		NamedRectangle r = new NamedRectangle(strokeColor, fillColor, strokeWidth, rect);
-		rectangles.add(r);
+		rectangles.add(0, r);
 	}
 	
 	public void addRectangle(NamedRectangle r) {
-		rectangles.add(r);
+		rectangles.add(0, r);
 	}
 	
 	public void updateRectangle(NamedRectangle r, int x, int y, int width, int height) {
@@ -65,7 +65,7 @@ public class RectangleModel {
 	public NamedRectangle checkIfSelected(Point startPoint) {
 		NamedRectangle currSelected = null;
 		
-		for(int i = rectangles.size() - 1; i >= 0; i--) {
+		for(int i = 0; i < rectangles.size(); i++) {
 			NamedRectangle r = rectangles.get(i);
 			if(r.getRectangle().contains(startPoint) && currSelected == null) {
 				r.setSelected(true);
@@ -98,9 +98,13 @@ public class RectangleModel {
 		return rectangles;
 	}
 	
-	public void drawAll(Graphics g) {
-		for(NamedRectangle r : rectangles) {
-			r.draw(g);
+	public void setRectangles(ArrayList<NamedRectangle> rects) {
+		rectangles = rects;
+	}
+	
+	public void drawAll(Graphics g) {	
+		for(int i = rectangles.size() - 1; i >= 0; i--) {
+			rectangles.get(i).draw(g);
 		}
 	}
 }

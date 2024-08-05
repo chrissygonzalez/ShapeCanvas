@@ -8,6 +8,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 
 public class DrawingPanel extends JPanel {
@@ -51,6 +54,13 @@ public class DrawingPanel extends JPanel {
 	
 	public ArrayList<NamedRectangle> getShapes(){
 		return rModel.getRectangles();
+	}
+	
+	public void setReorderedShapes(DefaultListModel<NamedRectangle> listModel, NamedRectangle r) {
+		ArrayList<NamedRectangle> updated = Collections.list(listModel.elements());
+		rModel.setRectangles(updated);
+		rModel.setSelected(r);
+		repaint();
 	}
 	
 	public NamedRectangle getSelectedShape() {		

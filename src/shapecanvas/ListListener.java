@@ -7,10 +7,12 @@ import javax.swing.event.ListSelectionListener;
 public class ListListener implements ListSelectionListener {
 	private DrawingPanel d;
 	private InspectorPanel i;
+	private ToolPanel t;
 	
-	public ListListener(DrawingPanel d, InspectorPanel i) {
+	public ListListener(DrawingPanel d, InspectorPanel i, ToolPanel t) {
 		this.d = d;
 		this.i = i;
+		this.t = t;
 	}
 
 	@Override
@@ -20,6 +22,9 @@ public class ListListener implements ListSelectionListener {
 		NamedRectangle selected = (NamedRectangle)source.getSelectedValue();
 		d.setSelectedShape(selected);
 		i.setSelected(selected);
+		if(selected != null) {
+			t.setToolMode("select");
+		}
 	}
-	
+
 }

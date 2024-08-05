@@ -8,27 +8,38 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class ShapeCanvasPanel extends JPanel {
-	public ArrayList<Color> colors;
+	private ArrayList<Color> colors = new ArrayList<>();
+	private Color defaultFillColor = Color.LIGHT_GRAY;
+	private Color defaultStrokeColor = Color.BLACK;
+	private float defaultStrokeWeight = 1.0f;
+	private ToolPanel t;
+	private DrawingPanel d;
+	private InspectorPanel i;
+	private ListPanel l;
 	
 	public ShapeCanvasPanel() {
-		colors = new ArrayList<>();
 		initColors();
 		
-		DrawingPanel d = new DrawingPanel();
-		ToolModeListener tModeListen = new ToolModeListener();
-		ToolPanel t = new ToolPanel(tModeListen);
+		d = new DrawingPanel(defaultFillColor, defaultStrokeColor, defaultStrokeWeight);
+		i = new InspectorPanel(colors);
+		t = new ToolPanel(colors);
+		l = new ListPanel();
 		
 		ColorComboActionListener cListen = new ColorComboActionListener(colors, d);
 		InspectorActionListener iListen = new InspectorActionListener(d);
-		InspectorPanel i = new InspectorPanel(iListen, colors, cListen);
-		
-		ListListener lListen = new ListListener(d, i);
-		ListPanel l = new ListPanel(lListen);
-		
+		ToolListener tListen = new ToolListener(d, i, l);
+		ListListener lListen = new ListListener(d, i, t);
 		DrawingListener dListen = new DrawingListener(i, l, d, t);
-		d.addMouseListener(dListen);
-		d.addMouseMotionListener(dListen);
 		
+		i.addListeners(iListen, cListen);
+		t.addListeners(tListen, cListen);
+		l.addListeners(lListen);
+		d.addListeners(dListen);
+		
+		createAndShowGui();
+	}
+	
+	public void createAndShowGui() {
 		this.setLayout(new BorderLayout());
 		this.add(t, BorderLayout.NORTH);
 		this.add(d, BorderLayout.CENTER);
@@ -41,14 +52,18 @@ public class ShapeCanvasPanel extends JPanel {
 	}
 	
 	public void initColors() {
+		colors.add(new Color(0, 0, 0, 0));
 		colors.add(new Color(253, 246, 96));
 		colors.add(new Color(151, 222, 237));
 		colors.add(Color.BLACK);
-//		colors.add(Color.RED);
-//		colors.add(Color.YELLOW);
-//		colors.add(Color.CYAN);
-//		colors.add(Color.GREEN);
+		colors.add(Color.WHITE);
+		colors.add(Color.RED);
+		colors.add(Color.YELLOW);
+		colors.add(Color.CYAN);
+		colors.add(Color.GREEN);
 		colors.add(Color.LIGHT_GRAY);
 		colors.add(Color.BLUE);
 	}
+	
+	
 }

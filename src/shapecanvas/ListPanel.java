@@ -10,6 +10,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionListener;
 
 public class ListPanel extends JPanel {
@@ -17,16 +18,20 @@ public class ListPanel extends JPanel {
 	private JScrollPane scrollPane;
 	private DefaultListModel<NamedRectangle> listModel;
 	
-	public ListPanel(ListSelectionListener lListen) {
+	public ListPanel() {
 		list = new JList<NamedRectangle>();
-		list.addListSelectionListener(lListen);
 		listModel = new DefaultListModel<NamedRectangle>();
 		
 		scrollPane = new JScrollPane(list);
-		scrollPane.setPreferredSize(new Dimension(110, 175));;
-		Border blackline = BorderFactory.createTitledBorder("All shapes");
-		setBorder(blackline);
+		scrollPane.setPreferredSize(new Dimension(155, 215));
 		add(scrollPane, BorderLayout.CENTER);
+		
+		Border blackline = BorderFactory.createTitledBorder("All shapes");
+		setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0, 10, 10, 10),  blackline));
+	}
+	
+	public void addListeners(ListSelectionListener lListen) {
+		list.addListSelectionListener(lListen);
 	}
 	
 	public void updateList(ArrayList<NamedRectangle> shapes, NamedRectangle selected) {
@@ -45,8 +50,8 @@ public class ListPanel extends JPanel {
 	}
 	
 	public void setSelected(NamedRectangle r) {
+		list.clearSelection();
 		if(r != null) {
-			list.clearSelection();
 			int size = listModel.getSize();
 			int index = 0;
 			while(index < size) {

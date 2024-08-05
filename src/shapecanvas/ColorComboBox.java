@@ -24,7 +24,7 @@ class ColorComboBox extends JPanel {
 	private ArrayList<ImageIcon> icons;
 	JComboBox<Integer> colorCombos;
 	
-	public ColorComboBox(ArrayList<Color> colors, ColorComboActionListener cListen, String actionCommand) {
+	public ColorComboBox(ArrayList<Color> colors, String actionCommand) {
 		this.colors = colors;
 		icons = new ArrayList<>();
 		
@@ -52,13 +52,21 @@ class ColorComboBox extends JPanel {
         
         colorCombos.setSelectedIndex(0);
         colorCombos.setActionCommand(actionCommand);
-        colorCombos.addActionListener(cListen);
+//        colorCombos.addActionListener(cListen);
         colorCombos.setRenderer(renderer);
         add(colorCombos);
 	}
 	
+	public void addListener(ColorComboActionListener cListen) {
+		colorCombos.addActionListener(cListen);
+	}
+	
 	public void setSelectedColor(Color c) {
 		colorCombos.setSelectedIndex(colors.indexOf(c));
+	}
+	
+	public void setSelectedIndex(int i) {
+		colorCombos.setSelectedIndex(i);
 	}
 	
 
@@ -83,7 +91,6 @@ class ColorComboBox extends JPanel {
 			}
 
 			ImageIcon icon = icons.get(selectedIndex);
-//			Color c = colors.get(selectedIndex);
 			setIcon(icon);
 
 			return this;

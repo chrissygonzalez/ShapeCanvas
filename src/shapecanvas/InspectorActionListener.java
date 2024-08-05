@@ -14,7 +14,6 @@ public class InspectorActionListener extends FocusAdapter implements ActionListe
 		this.d = d;
 	}
 
-	// update these to to take stroke weight
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String fieldText = ((JTextField) e.getSource()).getText();

@@ -14,22 +14,26 @@ public class DrawingPanel extends JPanel {
 	private RectangleModel rModel;
 	private Rectangle shape;
 	private Point startPoint;
-	// move to another model later?
-	// could be more global state, have colors and stroke width and current selection
 	private Color defaultStrokeColor;
 	private Color defaultFillColor;
 	private float defaultStrokeWidth;
 	private int prevX;
 	private int prevY;
+	private String toolMode;
 	
-	public DrawingPanel() {
+	public DrawingPanel(Color fill, Color stroke, float strokeWeight) {
 		this.rModel = new RectangleModel();
 		this.setBackground(Color.WHITE);
-		defaultStrokeColor = Color.BLACK;
-		defaultFillColor = Color.LIGHT_GRAY;
-		defaultStrokeWidth = 3.0f;
+		defaultStrokeColor = stroke;
+		defaultFillColor = fill;
+		defaultStrokeWidth = strokeWeight;
 		prevX = 0;
 		prevY = 0;
+	}
+	
+	public void addListeners(DrawingListener dListen ) {
+		this.addMouseListener(dListen); 
+		this.addMouseMotionListener(dListen);
 	}
 	
 	public void setNewStartPoint(Point startPoint) {
@@ -42,6 +46,10 @@ public class DrawingPanel extends JPanel {
 		repaint();
 	}
 	
+	public void setToolMode(String mode) {
+		this.toolMode = mode;
+	}
+	
 	public NamedRectangle getSelectedShape() {		
 		ArrayList<NamedRectangle> rects = rModel.getRectangles();
 		NamedRectangle currSelected = null;
@@ -49,7 +57,7 @@ public class DrawingPanel extends JPanel {
 		// move into rModel?
 		for(int i = rects.size() - 1; i >= 0; i--) {
 			NamedRectangle r = rects.get(i);
-			if(r.getRectangle().contains(startPoint) && currSelected == null) {
+			if(r.getRectangle().contains(startPoint) && currSelected == null && toolMode.equals("select")) {
 				r.setSelected(true);
 				currSelected = r;
 			} else {
@@ -117,18 +125,29 @@ public class DrawingPanel extends JPanel {
 		repaint();
 	}
 	
+	public void setStrokeWeight(float value) {
+		defaultStrokeWidth = value;
+	}
+	
 	public void modifyShapeColors(String property, Color value) {
+		if(property.equals("drawStrokeColor")) {
+			defaultStrokeColor = value;
+		} else if (property.equals("drawFillColor")) {
+			defaultFillColor = value;
+		}
+		
 		if(rModel.getSelected() == null) return;
+		
 		if(property.equals("strokeColor")) {
 			rModel.getSelected().setStrokeColor(value);
-		} else {
+		} else  {
 			rModel.getSelected().setFillColor(value);
 		}
 		repaint();
 	}
 	
 	public void modifyShape(String name, float value) {
-		System.out.println("float modifyShape");
+//		System.out.println("float modifyShape");
 		NamedRectangle selected = rModel.getSelected();
 		selected.setStrokeWidth(value);
 		repaint();

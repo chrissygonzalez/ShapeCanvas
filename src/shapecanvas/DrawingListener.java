@@ -31,6 +31,7 @@ class DrawingListener extends MouseAdapter {
 	
 	public void mouseDragged(MouseEvent e){
 		String toolMode = toolP.getToolMode();
+//		System.out.println(toolMode);
 		if(toolMode == "draw") {
 			drawP.expandShape(e);
 		} else {

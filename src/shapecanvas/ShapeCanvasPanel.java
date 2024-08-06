@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-
-import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 
 public class ShapeCanvasPanel extends JPanel {
@@ -13,6 +11,7 @@ public class ShapeCanvasPanel extends JPanel {
 	private Color defaultFillColor = Color.LIGHT_GRAY;
 	private Color defaultStrokeColor = Color.BLACK;
 	private float defaultStrokeWeight = 1.0f;
+	private String defaultToolMode = "draw";
 	private ToolPanel t;
 	private DrawingPanel d;
 	private InspectorPanel i;
@@ -21,7 +20,7 @@ public class ShapeCanvasPanel extends JPanel {
 	public ShapeCanvasPanel() {
 		initColors();
 		
-		d = new DrawingPanel(defaultFillColor, defaultStrokeColor, defaultStrokeWeight);
+		d = new DrawingPanel(defaultFillColor, defaultStrokeColor, defaultStrokeWeight, defaultToolMode);
 		i = new InspectorPanel(colors);
 		t = new ToolPanel(colors);
 		l = new ListPanel();
@@ -32,10 +31,11 @@ public class ShapeCanvasPanel extends JPanel {
 		ListListener lListen = new ListListener(d, i, t);
 		DrawingListener dListen = new DrawingListener(i, l, d, t);
 		ListMouseAdapter lm = new ListMouseAdapter(l, d);
+		ListActionListener lAction = new ListActionListener(l, d);
 		
 		i.addListeners(iListen, cListen);
 		t.addListeners(tListen, cListen);
-		l.addListeners(lListen, lm);
+		l.addListeners(lListen, lm, lAction);
 		d.addListeners(dListen);
 		
 		createAndShowGui();

@@ -1,6 +1,8 @@
 package shapecanvas;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -24,6 +26,7 @@ public class ToolPanel extends JPanel {
 	}
 	
 	public void createAndShowGui() {
+		this.setLayout(new BorderLayout());
 		toolGroup = new ButtonGroup();
 		selectBtn = new JToggleButton("Select");
 		selectBtn.setActionCommand("select");
@@ -36,9 +39,11 @@ public class ToolPanel extends JPanel {
 		
 		toolGroup.add(drawBtn);
 		toolGroup.add(selectBtn);
-
-		add(drawBtn);
-		add(selectBtn);
+		
+		JPanel toolBtns = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		toolBtns.add(drawBtn);
+		toolBtns.add(selectBtn);
+		add(toolBtns, BorderLayout.WEST);
 		
 		JLabel strokeColorLabel = new JLabel("stroke color:");
 		strokeColor = new ColorComboBox(colors, "drawStrokeColor");
@@ -56,7 +61,7 @@ public class ToolPanel extends JPanel {
 
 		strokeWeight.setText("1.0");
 		
-		JPanel drawingColors = new JPanel();
+		JPanel drawingColors = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		drawingColors.add(strokeColorLabel);
 		drawingColors.add(strokeColor);
 		drawingColors.add(fillColorLabel);
@@ -64,7 +69,7 @@ public class ToolPanel extends JPanel {
 		drawingColors.add(strokeWeightLabel);
 		drawingColors.add(strokeWeight);
 		
-		add(drawingColors);
+		add(drawingColors, BorderLayout.EAST);
 	}
 	
 	public void addListeners(ToolListener tListen, ColorComboActionListener cListen) {

@@ -69,7 +69,7 @@ public class InspectorPanel extends JPanel {
 		heightField.setActionCommand("height");
 		heightField.setName("height");
 		
-		JLabel strokeWidthLabel = new JLabel("stroke width:");
+		JLabel strokeWidthLabel = new JLabel("stroke weight:");
 		strokeWidthField = new JTextField(5);
 		strokeWidthField.setActionCommand("strokeWidth");
 		strokeWidthField.setName("strokeWidth");

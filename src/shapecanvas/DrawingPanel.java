@@ -7,8 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Enumeration;
+import java.util.LinkedList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
@@ -24,9 +24,10 @@ public class DrawingPanel extends JPanel {
 	private int prevY;
 	private String toolMode;
 	
-	public DrawingPanel(Color fill, Color stroke, float strokeWeight) {
+	public DrawingPanel(Color fill, Color stroke, float strokeWeight, String toolMode) {
 		this.rModel = new RectangleModel();
 		this.setBackground(Color.WHITE);
+		this.toolMode = toolMode;
 		defaultStrokeColor = stroke;
 		defaultFillColor = fill;
 		defaultStrokeWidth = strokeWeight;
@@ -52,19 +53,21 @@ public class DrawingPanel extends JPanel {
 		this.toolMode = mode;
 	}
 	
-	public ArrayList<NamedRectangle> getShapes(){
+	public LinkedList<NamedRectangle> getShapes(){
 		return rModel.getRectangles();
 	}
 	
-	public void setReorderedShapes(DefaultListModel<NamedRectangle> listModel, NamedRectangle r) {
-		ArrayList<NamedRectangle> updated = Collections.list(listModel.elements());
+	public void setUpdatedShapes(DefaultListModel<NamedRectangle> listModel, NamedRectangle r) {
+		LinkedList<NamedRectangle> updated = new LinkedList<>();
+		for (Enumeration<NamedRectangle> e = listModel.elements(); e.hasMoreElements();)
+		       updated.add(e.nextElement());
+		
 		rModel.setRectangles(updated);
 		rModel.setSelected(r);
 		repaint();
 	}
 	
 	public NamedRectangle getSelectedShape() {		
-		if(!toolMode.equals("select")) return null;
 		return rModel.checkIfSelected(startPoint);
 	}
 	

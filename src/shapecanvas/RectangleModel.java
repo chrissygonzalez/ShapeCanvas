@@ -4,14 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class RectangleModel {
-	private ArrayList<NamedRectangle> rectangles;
+	private LinkedList<NamedRectangle> rectangles;
 	private NamedRectangle selected;
 	
 	public RectangleModel() {
-		rectangles = new ArrayList<NamedRectangle>();
+		rectangles = new LinkedList<NamedRectangle>();
 	}
 	
 	public void addRectangle(Color strokeColor, Color fillColor, float strokeWidth, Rectangle rect) {
@@ -94,11 +94,11 @@ public class RectangleModel {
 		return this.selected;
 	}
 	
-	public ArrayList<NamedRectangle> getRectangles(){
+	public LinkedList<NamedRectangle> getRectangles(){
 		return rectangles;
 	}
 	
-	public void setRectangles(ArrayList<NamedRectangle> rects) {
+	public void setRectangles(LinkedList<NamedRectangle> rects) {
 		rectangles = rects;
 	}
 	

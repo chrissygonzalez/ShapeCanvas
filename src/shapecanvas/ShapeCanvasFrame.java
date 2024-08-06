@@ -15,14 +15,16 @@ public class ShapeCanvasFrame extends JFrame {
 	
 	public static void createOuterContainer() {
 		JFrame f = new JFrame("Shape Canvas");
+		ShapeCanvasPanel s = new ShapeCanvasPanel();
 		
-		JMenuBar menuBar = new JMenuBar();;
+		JMenuBar menuBar = new JMenuBar();
 		ShapeMenu shapeMenu = new ShapeMenu();
+		ShapeMenuListener sListen = new ShapeMenuListener(s, f);
+		shapeMenu.addListeners(sListen);
+		
 		f.setJMenuBar(menuBar);
 		menuBar.add(shapeMenu.createFileMenu());
 		
-		
-		ShapeCanvasPanel s = new ShapeCanvasPanel();
 		f.getContentPane().add(s);
 		f.setSize(1000, 725);
 		f.setVisible(true);

@@ -61,15 +61,15 @@ public class ToolPanel extends JPanel {
 
 		strokeWeight.setText("1.0");
 		
-		JPanel drawingColors = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		drawingColors.add(strokeColorLabel);
-		drawingColors.add(strokeColor);
-		drawingColors.add(fillColorLabel);
-		drawingColors.add(fillColor);
-		drawingColors.add(strokeWeightLabel);
-		drawingColors.add(strokeWeight);
+		JPanel drawingDefaults = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		drawingDefaults.add(strokeWeightLabel);
+		drawingDefaults.add(strokeWeight);
+		drawingDefaults.add(strokeColorLabel);
+		drawingDefaults.add(strokeColor);
+		drawingDefaults.add(fillColorLabel);
+		drawingDefaults.add(fillColor);
 		
-		add(drawingColors, BorderLayout.EAST);
+		add(drawingDefaults, BorderLayout.EAST);
 	}
 	
 	public void addListeners(ToolListener tListen, ColorComboActionListener cListen) {

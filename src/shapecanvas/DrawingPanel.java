@@ -22,12 +22,10 @@ public class DrawingPanel extends JPanel {
 	private float defaultStrokeWidth;
 	private int prevX;
 	private int prevY;
-	private String toolMode;
 	
-	public DrawingPanel(Color fill, Color stroke, float strokeWeight, String toolMode) {
+	public DrawingPanel(Color fill, Color stroke, float strokeWeight) {
 		this.rModel = new RectangleModel();
 		this.setBackground(Color.WHITE);
-		this.toolMode = toolMode;
 		defaultStrokeColor = stroke;
 		defaultFillColor = fill;
 		defaultStrokeWidth = strokeWeight;
@@ -49,12 +47,13 @@ public class DrawingPanel extends JPanel {
 		defaultStrokeWidth = value;
 	}
 	
-	public void setToolMode(String mode) {
-		this.toolMode = mode;
-	}
-	
 	public LinkedList<NamedRectangle> getShapes(){
 		return rModel.getRectangles();
+	}
+	
+	public void setShapes(LinkedList<NamedRectangle> rects) {
+		rModel.setRectangles(rects);
+		repaint();
 	}
 	
 	public void setUpdatedShapes(DefaultListModel<NamedRectangle> listModel, NamedRectangle r) {

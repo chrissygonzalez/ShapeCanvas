@@ -3,7 +3,6 @@ package shapecanvas;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 
 import javax.swing.BorderFactory;

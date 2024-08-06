@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.LinkedList;
+
 import javax.swing.JPanel;
 
 public class ShapeCanvasPanel extends JPanel {
@@ -11,7 +13,6 @@ public class ShapeCanvasPanel extends JPanel {
 	private Color defaultFillColor = Color.LIGHT_GRAY;
 	private Color defaultStrokeColor = Color.BLACK;
 	private float defaultStrokeWeight = 1.0f;
-	private String defaultToolMode = "draw";
 	private ToolPanel t;
 	private DrawingPanel d;
 	private InspectorPanel i;
@@ -20,7 +21,7 @@ public class ShapeCanvasPanel extends JPanel {
 	public ShapeCanvasPanel() {
 		initColors();
 		
-		d = new DrawingPanel(defaultFillColor, defaultStrokeColor, defaultStrokeWeight, defaultToolMode);
+		d = new DrawingPanel(defaultFillColor, defaultStrokeColor, defaultStrokeWeight);
 		i = new InspectorPanel(colors);
 		t = new ToolPanel(colors);
 		l = new ListPanel();
@@ -67,5 +68,11 @@ public class ShapeCanvasPanel extends JPanel {
 		colors.add(Color.BLUE);
 	}
 	
+	public LinkedList<NamedRectangle> getShapeState(){
+		return d.getShapes();
+	}
 	
+	public void setShapeState(LinkedList<NamedRectangle> rects) {
+		d.setShapes(rects);
+	}
 }

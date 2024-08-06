@@ -1,33 +1,33 @@
 package shapecanvas;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 class ShapeMenu extends JMenu {
+	private ShapeMenuListener sListen;
+	
+	public void addListeners(ShapeMenuListener sListen) {
+		this.sListen = sListen;
+	}
 
 	public JMenuItem createFileOpenItem() {
 		JMenuItem item = new JMenuItem("Open");
-//		item.addActionListener(new OpenFileListener());
+		item.setActionCommand("open");
+		item.addActionListener(sListen);
 		return item;
 	}
 	
 	public JMenuItem createFileSaveItem() {
 		JMenuItem item = new JMenuItem("Save");
+		item.setActionCommand("save");
+		item.addActionListener(sListen);
 		return item;
 	}
 	
 	public JMenuItem createFileExitItem(){
-		JMenuItem item = new JMenuItem("Exit");      
-		class MenuItemListener implements ActionListener{
-			public void actionPerformed(ActionEvent event){
-				System.exit(0);
-	         }
-		}      
-		ActionListener listener = new MenuItemListener();
-		item.addActionListener(listener);
+		JMenuItem item = new JMenuItem("Exit"); 
+		item.setActionCommand("exit");
+		item.addActionListener(sListen);
 		return item;
 	}
 	

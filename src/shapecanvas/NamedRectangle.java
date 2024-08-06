@@ -5,8 +5,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
-public class NamedRectangle extends Rectangle {
+public class NamedRectangle extends Rectangle implements Serializable {
 	final static Color selectedColor = Color.BLUE;
 	static int count = 0;
 	private Rectangle rect;

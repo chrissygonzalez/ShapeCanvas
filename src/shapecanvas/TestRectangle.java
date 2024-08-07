@@ -37,7 +37,7 @@ class TestRectangle {
 	    System.out.println(test);
 	    System.out.println(r2);
 	    
-	    System.out.println(test.getRectangle().getBounds());
-	    System.out.println(r2.getRectangle().getBounds());
+	    System.out.println(test.getShape().getBounds());
+	    System.out.println(r2.getShape().getBounds());
 	}
 }

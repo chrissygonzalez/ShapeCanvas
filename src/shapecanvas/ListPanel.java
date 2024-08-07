@@ -16,14 +16,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionListener;
 
 public class ListPanel extends JPanel {
-	private JList<NamedRectangle> list;
+	private JList<NamedShape> list;
 	private JScrollPane scrollPane;
-	private DefaultListModel<NamedRectangle> listModel;
+	private DefaultListModel<NamedShape> listModel;
 	private JButton deleteBtn;
 	
 	public ListPanel() {
-		list = new JList<NamedRectangle>();
-		listModel = new DefaultListModel<NamedRectangle>();
+		list = new JList<NamedShape>();
+		listModel = new DefaultListModel<NamedShape>();
 		deleteBtn = new JButton("Delete selected");
 		deleteBtn.setEnabled(false);
 		
@@ -45,7 +45,7 @@ public class ListPanel extends JPanel {
 		deleteBtn.addActionListener(lAction);
 	}
 	
-	public void updateList(LinkedList<NamedRectangle> shapes, NamedRectangle selected) {
+	public void updateList(LinkedList<NamedShape> shapes, NamedShape selected) {
 		listModel.clear();
 		Integer selectedIndex = null;
 		for (int i = 0; i < shapes.size(); i++){
@@ -60,7 +60,7 @@ public class ListPanel extends JPanel {
 		}
 	}
 	
-	public void setDeleteButtonState(NamedRectangle r) {
+	public void setDeleteButtonState(NamedShape r) {
 		if(r == null) {
 			deleteBtn.setEnabled(false);
 		} else {
@@ -68,7 +68,7 @@ public class ListPanel extends JPanel {
 		}
 	}
 	
-	public void setSelected(NamedRectangle r) {
+	public void setSelected(NamedShape r) {
 		list.clearSelection();
 		deleteBtn.setEnabled(false);
 		
@@ -91,7 +91,7 @@ public class ListPanel extends JPanel {
 		return list.locationToIndex(p);
 	}
 	
-	public NamedRectangle getListModelIndex(int i) {
+	public NamedShape getListModelIndex(int i) {
 		return listModel.get(i);
 	}
 	
@@ -99,17 +99,17 @@ public class ListPanel extends JPanel {
 		listModel.remove(i);
 	}
 	
-	public DefaultListModel<NamedRectangle> deleteAndUpdateShapes(){
+	public DefaultListModel<NamedShape> deleteAndUpdateShapes(){
 		int selectedIndex = list.getSelectedIndex();
 		removeFromListModel(selectedIndex);
 		return getListModel();
 	}
 	
-	public void addToListModel(int i, NamedRectangle r) {
+	public void addToListModel(int i, NamedShape r) {
 		listModel.add(i, r);
 	}
 	
-	public DefaultListModel<NamedRectangle> getListModel(){
+	public DefaultListModel<NamedShape> getListModel(){
 		return listModel;
 	}
 }

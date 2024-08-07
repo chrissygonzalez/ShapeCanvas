@@ -3,6 +3,7 @@ package shapecanvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -13,7 +14,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public class InspectorPanel extends JPanel {
-	private NamedRectangle selected;
+	private NamedShape selected;
 	private JTextField xField;
 	private JTextField yField;
 	private JTextField widthField;
@@ -96,7 +97,7 @@ public class InspectorPanel extends JPanel {
 		add(fillColor);
 	}
 	
-	public void setSelected(NamedRectangle r) {		
+	public void setSelected(NamedShape r) {		
 		selected = r;
 		if(selected == null) {
 			xField.setText("");
@@ -107,9 +108,11 @@ public class InspectorPanel extends JPanel {
 			strokeColor.setSelectedIndex(0);
 			fillColor.setSelectedIndex(0);
 		} else {
-			xField.setText(String.valueOf(selected.getRectangle().getX()));
-			yField.setText(String.valueOf(selected.getRectangle().getY()));
-			Dimension size = selected.getRectangle().getSize();
+			// TODO; make work for different shape types
+			Rectangle rect = (Rectangle)selected.getShape();
+			xField.setText(String.valueOf(rect.getX()));
+			yField.setText(String.valueOf(rect.getY()));
+			Dimension size = rect.getSize();
 			
 			widthField.setText(String.valueOf(size.width));
 			heightField.setText(String.valueOf(size.height));

@@ -18,7 +18,7 @@ class ShapeMenuListener implements ActionListener {
 	private ShapeCanvasPanel s;
 	private JFrame f;
 	private JFileChooser jFileChooser;
-	private LinkedList<NamedRectangle> rects;
+	private LinkedList<NamedShape> rects;
 	
 	public ShapeMenuListener(ShapeCanvasPanel s, JFrame f) {
 		this.s = s;	
@@ -65,14 +65,14 @@ class ShapeMenuListener implements ActionListener {
 		}
 	}
 	
-	public LinkedList<NamedRectangle> readFile(File file) throws IOException, ClassNotFoundException {
+	public LinkedList<NamedShape> readFile(File file) throws IOException, ClassNotFoundException {
 		rects = new LinkedList<>();
 	    FileInputStream fileInputStream = new FileInputStream(file);
 	    ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 	    
 	    try {
 	    	while(true){
-	    		NamedRectangle r = (NamedRectangle)objectInputStream.readObject();
+	    		NamedShape r = (NamedShape)objectInputStream.readObject();
 	    		rects.add(r);
 	    	}
 	    } catch(ClassNotFoundException e) {
@@ -86,7 +86,7 @@ class ShapeMenuListener implements ActionListener {
 	}
 	
 	public void writeFile(File file) throws IOException {
-		LinkedList<NamedRectangle> shapes = s.getShapeState();
+		LinkedList<NamedShape> shapes = s.getShapeState();
 		
 		FileOutputStream fileOutputStream = new FileOutputStream(file);
 	    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);

@@ -9,7 +9,7 @@ class DrawingListener extends MouseAdapter {
 	private ListPanel list;
 	private DrawingPanel drawP;
 	private ToolPanel toolP;
-	private NamedRectangle selected;
+	private NamedShape selected;
 	
 	public DrawingListener(InspectorPanel i, ListPanel l, DrawingPanel d, ToolPanel t) {
 		this.inspect = i;
@@ -20,6 +20,12 @@ class DrawingListener extends MouseAdapter {
 	
 	public void mousePressed(MouseEvent e){
 		String toolMode = toolP.getToolMode();
+		if(toolMode == "draw") {
+			drawP.setDrawingCircles(false);
+		}
+		if(toolMode == "drawCircle") {
+			drawP.setDrawingCircles(true);
+		}
 		drawP.setNewStartPoint(e.getPoint());
 		if(toolMode == "select") {
 			selected = drawP.getSelectedShape();
@@ -31,7 +37,7 @@ class DrawingListener extends MouseAdapter {
 	
 	public void mouseDragged(MouseEvent e){
 		String toolMode = toolP.getToolMode();
-		if(toolMode == "draw") {
+		if(toolMode == "draw" || toolMode == "drawCircle") {
 			drawP.expandShape(e);
 		} else {
 			drawP.moveShape(e);
@@ -40,7 +46,7 @@ class DrawingListener extends MouseAdapter {
 	
 	public void mouseReleased(MouseEvent e){
 		String toolMode = toolP.getToolMode();
-		if(toolMode == "draw") {
+		if(toolMode == "draw" || toolMode == "drawCircle") {
 			drawP.completeShape();
 			list.updateList(drawP.getShapes(), null);
 		}

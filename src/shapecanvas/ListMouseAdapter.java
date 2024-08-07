@@ -17,7 +17,7 @@ class ListMouseAdapter extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
     	dragSourceIndex = l.getSelectedIndex();
-    	NamedRectangle selected = l.getListModelIndex(dragSourceIndex);
+    	NamedShape selected = l.getListModelIndex(dragSourceIndex);
     	d.setSelectedShape(selected);
     	l.setDeleteButtonState(selected);
     	mouseDragging = true;
@@ -34,7 +34,7 @@ class ListMouseAdapter extends MouseAdapter {
             int currentIndex = l.getCurrentIndex(e.getPoint());
             if (currentIndex != dragSourceIndex) {
                 int dragTargetIndex = l.getSelectedIndex();
-                NamedRectangle dragElement = l.getListModelIndex(dragSourceIndex);
+                NamedShape dragElement = l.getListModelIndex(dragSourceIndex);
                 l.removeFromListModel(dragSourceIndex);
                 l.addToListModel(dragTargetIndex, dragElement);
                 dragSourceIndex = currentIndex;

@@ -68,11 +68,12 @@ public class ShapeCanvasPanel extends JPanel {
 		colors.add(Color.BLUE);
 	}
 	
-	public LinkedList<NamedRectangle> getShapeState(){
+	public LinkedList<NamedShape> getShapeState(){
 		return d.getShapes();
 	}
 	
-	public void setShapeState(LinkedList<NamedRectangle> rects) {
+	public void setShapeState(LinkedList<NamedShape> rects) {
 		d.setShapes(rects);
+		l.updateList(rects, null);
 	}
 }

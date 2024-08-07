@@ -18,7 +18,7 @@ public class ToolListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand() == "draw") {
+		if(e.getActionCommand() == "draw" || e.getActionCommand() == "drawCircle") {
 			d.setSelectedShape(null);
 			i.setSelected(null);
 			l.setSelected(null);

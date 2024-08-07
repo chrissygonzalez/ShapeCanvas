@@ -27,6 +27,7 @@ class ColorComboBox extends JPanel {
 	public ColorComboBox(ArrayList<Color> colors, String actionCommand) {
 		this.colors = colors;
 		icons = new ArrayList<>();
+		this.setOpaque(false);
 		
 		for(Color c : colors) {
 			BufferedImage squareImg = new BufferedImage(IMG_WIDTH, IMG_WIDTH, BufferedImage.TYPE_INT_ARGB);

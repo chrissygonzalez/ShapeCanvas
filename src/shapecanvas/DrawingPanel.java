@@ -14,7 +14,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 
 public class DrawingPanel extends JPanel {
-	private RectangleModel rModel;
+	private ShapeModel rModel;
 	private Rectangle shape;
 	private Point startPoint;
 	private Color defaultStrokeColor;
@@ -22,9 +22,11 @@ public class DrawingPanel extends JPanel {
 	private float defaultStrokeWidth;
 	private int prevX;
 	private int prevY;
+	// TODO: set this with the UI
+	private boolean drawingCircles = false;
 	
 	public DrawingPanel(Color fill, Color stroke, float strokeWeight) {
-		this.rModel = new RectangleModel();
+		this.rModel = new ShapeModel();
 		this.setBackground(Color.WHITE);
 		defaultStrokeColor = stroke;
 		defaultFillColor = fill;
@@ -38,6 +40,10 @@ public class DrawingPanel extends JPanel {
 		this.addMouseMotionListener(dListen);
 	}
 	
+	public void setDrawingCircles(boolean c) {
+		drawingCircles = c;
+	}
+	
 	public void setNewStartPoint(Point startPoint) {
 		this.startPoint = startPoint;
 		this.shape = new Rectangle();
@@ -47,37 +53,37 @@ public class DrawingPanel extends JPanel {
 		defaultStrokeWidth = value;
 	}
 	
-	public LinkedList<NamedRectangle> getShapes(){
-		return rModel.getRectangles();
+	public LinkedList<NamedShape> getShapes(){
+		return rModel.getShapes();
 	}
 	
-	public void setShapes(LinkedList<NamedRectangle> rects) {
-		rModel.setRectangles(rects);
+	public void setShapes(LinkedList<NamedShape> rects) {
+		rModel.setShapes(rects);
 		repaint();
 	}
 	
-	public void setUpdatedShapes(DefaultListModel<NamedRectangle> listModel, NamedRectangle r) {
-		LinkedList<NamedRectangle> updated = new LinkedList<>();
-		for (Enumeration<NamedRectangle> e = listModel.elements(); e.hasMoreElements();)
+	public void setUpdatedShapes(DefaultListModel<NamedShape> listModel, NamedShape r) {
+		LinkedList<NamedShape> updated = new LinkedList<>();
+		for (Enumeration<NamedShape> e = listModel.elements(); e.hasMoreElements();)
 		       updated.add(e.nextElement());
 		
-		rModel.setRectangles(updated);
+		rModel.setShapes(updated);
 		rModel.setSelected(r);
 		repaint();
 	}
 	
-	public NamedRectangle getSelectedShape() {		
+	public NamedShape getSelectedShape() {		
 		return rModel.checkIfSelected(startPoint);
 	}
 	
-	public void setSelectedShape(NamedRectangle r) {
+	public void setSelectedShape(NamedShape r) {
 		rModel.setSelected(r);
 		repaint();
 	}
 	
 	public void setMoveShapePreviousPoint(MouseEvent e) {
 		if(rModel.getSelected() != null) {
-			Rectangle r = rModel.getSelected().getRectangle();
+			Rectangle r = (Rectangle)rModel.getSelected().getShape();
 			prevX = r.x - e.getX();
 			prevY = r.y - e.getY();
 		}
@@ -85,7 +91,7 @@ public class DrawingPanel extends JPanel {
 	
 	public void moveShape(MouseEvent e) {
 		if(rModel.getSelected() != null) {
-			Rectangle r = rModel.getSelected().getRectangle();
+			Rectangle r = (Rectangle)rModel.getSelected().getShape();
 			r.setLocation(e.getX() + prevX, e.getY() + prevY);
 			repaint();
 		}
@@ -102,11 +108,15 @@ public class DrawingPanel extends JPanel {
 		repaint();
 	}
 	
-	public NamedRectangle completeShape() {
-		NamedRectangle temp = null;
+	public NamedShape completeShape() {
+		NamedShape temp = null;
 		if (shape.width != 0 || shape.height != 0){
-			temp = new NamedRectangle(defaultStrokeColor, defaultFillColor, defaultStrokeWidth, shape);
-			rModel.addRectangle(temp);
+			if(drawingCircles) {
+				temp = new NamedCircle(defaultStrokeColor, defaultFillColor, defaultStrokeWidth, shape);
+			} else {
+				temp = new NamedRectangle(defaultStrokeColor, defaultFillColor, defaultStrokeWidth, shape);
+			}
+			rModel.addShape(temp);
 		}
 		shape = null;
 		repaint();
@@ -119,7 +129,7 @@ public class DrawingPanel extends JPanel {
 	}
 	
 	public void updateStrokeWeight(float value) {
-		rModel.updateRectangleStrokeWeight(value);
+		rModel.updateShapeStrokeWeight(value);
 		repaint();
 	}
 	
@@ -132,7 +142,7 @@ public class DrawingPanel extends JPanel {
 	}
 	
 	public void modifyShapeColors(String property, Color value) {
-		rModel.updateRectangleColors(property, value);
+		rModel.updateShapeColors(property, value);
 		repaint();
 	}
 	
@@ -144,11 +154,19 @@ public class DrawingPanel extends JPanel {
 		rModel.drawAll(g);
 		
 		if (shape != null){
-			g2d.setStroke(new BasicStroke(defaultStrokeWidth));
-			g2d.setColor(defaultFillColor);
-			g2d.fill(shape);
-			g2d.setColor(defaultStrokeColor);
-			g2d.draw( shape );
+			if(drawingCircles) {
+				g2d.setStroke(new BasicStroke(defaultStrokeWidth));
+				g2d.setColor(defaultFillColor);
+				g2d.fillOval(shape.x, shape.y, shape.width, shape.height);
+				g2d.setColor(defaultStrokeColor);
+				g2d.drawOval(shape.x, shape.y, shape.width, shape.height);
+			} else {
+				g2d.setStroke(new BasicStroke(defaultStrokeWidth));
+				g2d.setColor(defaultFillColor);
+				g2d.fill(shape);
+				g2d.setColor(defaultStrokeColor);
+				g2d.draw( shape );
+			}
 		}
 	}
 }

@@ -24,6 +24,13 @@ class ShapeMenu extends JMenu {
 		return item;
 	}
 	
+	public JMenuItem createFileExportItem() {
+		JMenuItem item = new JMenuItem("Save as image");
+		item.setActionCommand("image");
+		item.addActionListener(sListen);
+		return item;
+	}
+	
 	public JMenuItem createFileExitItem(){
 		JMenuItem item = new JMenuItem("Exit"); 
 		item.setActionCommand("exit");
@@ -35,6 +42,7 @@ class ShapeMenu extends JMenu {
 		JMenu menu = new JMenu("File");
 		menu.add(createFileOpenItem());
 		menu.add(createFileSaveItem());
+		menu.add(createFileExportItem());
 		menu.add(createFileExitItem());
 		return menu;
 	}

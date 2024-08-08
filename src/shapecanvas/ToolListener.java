@@ -1,5 +1,6 @@
 package shapecanvas;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,10 +20,13 @@ public class ToolListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "draw" || e.getActionCommand() == "drawCircle") {
+			System.out.println("here");
+			d.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 			d.setSelectedShape(null);
 			i.setSelected(null);
 			l.setSelected(null);
 		} else if(e.getActionCommand() == "select"){
+			d.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} else if(e.getActionCommand() == "stroke weight"){
 			String fieldText = ((JTextField) e.getSource()).getText();
 			Float value = Float.parseFloat(fieldText);

@@ -1,7 +1,9 @@
 package shapecanvas;
 
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +12,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -63,6 +67,25 @@ class ShapeMenuListener implements ActionListener {
 				}
 			}
 		}
+		
+		if(e.getActionCommand() == "image") {
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG files", "png", "PNG");
+			jFileChooser.setFileFilter(filter);
+			int returnVal = jFileChooser.showSaveDialog(f);
+			if(returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = jFileChooser.getSelectedFile();
+				try {
+					String filename = file.getCanonicalPath();
+					
+					if(!filename.endsWith(".png") ) {
+						file = new File(filename + ".png");
+					}
+					writeImage(file);
+				} catch (IOException err) {
+					err.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	public LinkedList<NamedShape> readFile(File file) throws IOException, ClassNotFoundException {
@@ -96,5 +119,20 @@ class ShapeMenuListener implements ActionListener {
 	    }
 	    objectOutputStream.flush();
 	    objectOutputStream.close();
+	}
+	
+	public void writeImage(File file) throws IOException {
+		DrawingPanel d = s.getDrawingPanel();
+		BufferedImage bi = new BufferedImage(s.getWidth(), s.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = bi.createGraphics();
+        d.paint(g2d);
+        g2d.dispose();
+
+        try {
+            ImageIO.write (bi, "jpeg", file);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
 	}
 }

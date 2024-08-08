@@ -2,8 +2,10 @@ package shapecanvas;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.util.LinkedList;
 
@@ -109,9 +111,12 @@ public class ShapeModel {
 		shapes = s;
 	}
 	
-	public void drawAll(Graphics g) {	
+	public void drawAll(Graphics g) {
+		Graphics2D g2d = (Graphics2D)g;
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
 		for(int i = shapes.size() - 1; i >= 0; i--) {
-			shapes.get(i).draw(g);
+			shapes.get(i).draw(g2d);
 		}
 	}
 }

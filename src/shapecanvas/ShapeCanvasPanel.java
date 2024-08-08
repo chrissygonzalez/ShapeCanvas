@@ -9,8 +9,10 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 
 public class ShapeCanvasPanel extends JPanel {
+	private final Color BKGD = new Color(210, 226, 243);
+//	private final Color BKGD = new Color(202, 199, 195);
 	private ArrayList<Color> colors = new ArrayList<>();
-	private Color defaultFillColor = Color.LIGHT_GRAY;
+	private Color defaultFillColor = new Color(217, 217, 217);
 	private Color defaultStrokeColor = Color.BLACK;
 	private float defaultStrokeWeight = 1.0f;
 	private ToolPanel t;
@@ -48,6 +50,9 @@ public class ShapeCanvasPanel extends JPanel {
 		this.add(d, BorderLayout.CENTER);
 		
 		JPanel sidePanel = new JPanel(new GridLayout(2, 1));
+		sidePanel.setBackground(BKGD);
+		i.setOpaque(false);
+		l.setOpaque(false);
 		sidePanel.add(i);
 		sidePanel.add(l);
 		
@@ -64,7 +69,7 @@ public class ShapeCanvasPanel extends JPanel {
 		colors.add(Color.YELLOW);
 		colors.add(Color.CYAN);
 		colors.add(Color.GREEN);
-		colors.add(Color.LIGHT_GRAY);
+		colors.add(new Color(217, 217, 217));
 		colors.add(Color.BLUE);
 	}
 	
@@ -75,5 +80,9 @@ public class ShapeCanvasPanel extends JPanel {
 	public void setShapeState(LinkedList<NamedShape> rects) {
 		d.setShapes(rects);
 		l.updateList(rects, null);
+	}
+	
+	public DrawingPanel getDrawingPanel() {
+		return d;
 	}
 }

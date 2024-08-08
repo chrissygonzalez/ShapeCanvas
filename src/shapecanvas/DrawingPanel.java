@@ -2,10 +2,12 @@ package shapecanvas;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.util.Enumeration;
 import java.util.LinkedList;
@@ -22,10 +24,10 @@ public class DrawingPanel extends JPanel {
 	private float defaultStrokeWidth;
 	private int prevX;
 	private int prevY;
-	// TODO: set this with the UI
 	private boolean drawingCircles = false;
 	
 	public DrawingPanel(Color fill, Color stroke, float strokeWeight) {
+		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 		this.rModel = new ShapeModel();
 		this.setBackground(Color.WHITE);
 		defaultStrokeColor = stroke;
@@ -150,6 +152,7 @@ public class DrawingPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D)g;
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		rModel.drawAll(g);
 		
@@ -168,5 +171,6 @@ public class DrawingPanel extends JPanel {
 				g2d.draw( shape );
 			}
 		}
+		g2d.dispose();
 	}
 }

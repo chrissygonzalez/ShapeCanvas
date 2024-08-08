@@ -14,6 +14,8 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public class InspectorPanel extends JPanel {
+	private final Color HIGHLIGHT = Color.WHITE;
+	private final Color SHADOW = new Color(135, 187, 249);
 	private NamedShape selected;
 	private JTextField xField;
 	private JTextField yField;
@@ -45,8 +47,9 @@ public class InspectorPanel extends JPanel {
 	}
 	
 	public void createAndShowGui() {
-		Border blackline = BorderFactory.createTitledBorder("Selected shape");
-		setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0, 10, 10, 10),  blackline));
+		Border etched = BorderFactory.createEtchedBorder(HIGHLIGHT, SHADOW);
+		Border title = BorderFactory.createTitledBorder(etched, "Selected shape");
+		setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0, 10, 10, 10),  title));
 		
 		this.setLayout(new GridLayout(7, 2));
 		

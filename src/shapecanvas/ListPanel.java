@@ -1,6 +1,7 @@
 package shapecanvas;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.LinkedList;
@@ -16,6 +17,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionListener;
 
 public class ListPanel extends JPanel {
+	private final Color HIGHLIGHT = Color.WHITE;
+	private final Color SHADOW = new Color(135, 187, 249);
 	private JList<NamedShape> list;
 	private JScrollPane scrollPane;
 	private DefaultListModel<NamedShape> listModel;
@@ -30,12 +33,14 @@ public class ListPanel extends JPanel {
 		scrollPane = new JScrollPane(list);
 		scrollPane.setPreferredSize(new Dimension(155, 215));
 		JPanel box = new JPanel(new BorderLayout());
+		box.setOpaque(false);
 		box.add(deleteBtn, BorderLayout.CENTER);
 		box.add(scrollPane, BorderLayout.SOUTH);
 		add(box, BorderLayout.CENTER);
 		
-		Border blackline = BorderFactory.createTitledBorder("All shapes");
-		setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0, 10, 10, 10),  blackline));
+		Border etched = BorderFactory.createEtchedBorder(HIGHLIGHT, SHADOW);
+		Border title = BorderFactory.createTitledBorder(etched, "All shapes");
+		setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0, 10, 10, 10),  title));
 	}
 	
 	public void addListeners(ListSelectionListener lListen, ListMouseAdapter lm, ListActionListener lAction) {

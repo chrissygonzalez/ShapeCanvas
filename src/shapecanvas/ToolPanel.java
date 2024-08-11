@@ -22,13 +22,18 @@ public class ToolPanel extends JPanel {
 	private ToolButton selectBtn;
 	private ToolButton drawBtn;
 	private ToolButton drawCircleBtn;
+	private ToolButton drawTriangleBtn;
 	private JTextField strokeWeight;
 	private ColorComboBox strokeColor;
 	private ColorComboBox fillColor;
+	private Color defaultFillColor;
+	private Color defaultStrokeColor;
 	
-	public ToolPanel(ArrayList<Color> colors) {
+	public ToolPanel(ArrayList<Color> colors, Color defaultFillColor, Color defaultStrokeColor) {
 		this.colors = colors;
 		this.setBackground(BKGD);
+		this.defaultFillColor = defaultFillColor;
+		this.defaultStrokeColor = defaultStrokeColor;
 		createAndShowGui();
 	}
 	
@@ -52,12 +57,15 @@ public class ToolPanel extends JPanel {
 		dPanel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0, 10, 10, 10),  etched));
 		drawBtn = new ToolButton("draw", "rectangle.png", true);
 		drawCircleBtn = new ToolButton("drawCircle", "circle.png", false);
+		drawTriangleBtn = new ToolButton("drawTriangle", "triangle.png", false);
 		dPanel.add(drawBtn);
 		dPanel.add(drawCircleBtn);
+		dPanel.add(drawTriangleBtn);
 		
 		toolGroup.add(drawBtn);
 		toolGroup.add(selectBtn);
-		toolGroup.add(drawCircleBtn);;
+		toolGroup.add(drawCircleBtn);
+		toolGroup.add(drawTriangleBtn);
 		
 		JPanel toolBtns = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		toolBtns.setOpaque(false);
@@ -67,11 +75,11 @@ public class ToolPanel extends JPanel {
 		
 		JLabel strokeColorLabel = new JLabel("Stroke color:");
 		strokeColor = new ColorComboBox(colors, "drawStrokeColor");
-		strokeColor.setSelectedIndex(3);
+		strokeColor.setSelectedColor(defaultStrokeColor);
 		
 		JLabel fillColorLabel = new JLabel("Fill color:");
 		fillColor = new ColorComboBox(colors, "drawFillColor");
-		fillColor.setSelectedIndex(9);
+		fillColor.setSelectedColor(defaultFillColor);
 		
 		JLabel strokeWeightLabel = new JLabel("Stroke weight:");
 		strokeWeight = new JTextField(3);
@@ -94,6 +102,7 @@ public class ToolPanel extends JPanel {
 		selectBtn.addActionListener(tListen);
 		drawBtn.addActionListener(tListen);
 		drawCircleBtn.addActionListener(tListen);
+		drawTriangleBtn.addActionListener(tListen);
 		strokeColor.addListener(cListen);
 		fillColor.addListener(cListen);
 		strokeWeight.addActionListener(tListen);
@@ -103,11 +112,14 @@ public class ToolPanel extends JPanel {
 		return toolGroup.getSelection().getActionCommand();
 	}
 	
+	// used by list
 	public void setToolMode(String mode) {
 		if(mode.equals("draw")) {
 			drawBtn.setSelected(true);
 		} else if(mode.equals("drawCircle")) {
 			drawCircleBtn.setSelected(true);
+		} else if(mode.equals("drawTriangle")) {
+			drawTriangleBtn.setSelected(true);
 		} else {
 			selectBtn.setSelected(true);
 		}

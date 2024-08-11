@@ -21,13 +21,17 @@ class DrawingListener extends MouseAdapter {
 	public void mousePressed(MouseEvent e){
 		String toolMode = toolP.getToolMode();
 		if(toolMode == "draw") {
-			drawP.setDrawingCircles(false);
+			drawP.setDrawingShape("rectangle");
 		}
 		if(toolMode == "drawCircle") {
-			drawP.setDrawingCircles(true);
+			drawP.setDrawingShape("circle");
+		}
+		if(toolMode == "drawTriangle") {
+			drawP.setDrawingShape("triangle");
 		}
 		drawP.setNewStartPoint(e.getPoint());
 		if(toolMode == "select") {
+			drawP.setPanelCursor("select");
 			selected = drawP.getSelectedShape();
 			inspect.setSelected(selected);
 			list.setSelected(selected);
@@ -37,7 +41,7 @@ class DrawingListener extends MouseAdapter {
 	
 	public void mouseDragged(MouseEvent e){
 		String toolMode = toolP.getToolMode();
-		if(toolMode == "draw" || toolMode == "drawCircle") {
+		if(toolMode != "select") {
 			drawP.expandShape(e);
 		} else {
 			drawP.moveShape(e);
@@ -46,7 +50,7 @@ class DrawingListener extends MouseAdapter {
 	
 	public void mouseReleased(MouseEvent e){
 		String toolMode = toolP.getToolMode();
-		if(toolMode == "draw" || toolMode == "drawCircle") {
+		if(toolMode != "select") {
 			drawP.completeShape();
 			list.updateList(drawP.getShapes(), null);
 		}

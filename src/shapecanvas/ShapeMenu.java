@@ -11,21 +11,21 @@ class ShapeMenu extends JMenu {
 	}
 
 	public JMenuItem createFileOpenItem() {
-		JMenuItem item = new JMenuItem("Open");
+		JMenuItem item = new JMenuItem("Open...");
 		item.setActionCommand("open");
 		item.addActionListener(sListen);
 		return item;
 	}
 	
 	public JMenuItem createFileSaveItem() {
-		JMenuItem item = new JMenuItem("Save");
+		JMenuItem item = new JMenuItem("Save...");
 		item.setActionCommand("save");
 		item.addActionListener(sListen);
 		return item;
 	}
 	
 	public JMenuItem createFileExportItem() {
-		JMenuItem item = new JMenuItem("Save as image");
+		JMenuItem item = new JMenuItem("Save as image...");
 		item.setActionCommand("image");
 		item.addActionListener(sListen);
 		return item;

@@ -9,11 +9,20 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 
 public class ShapeCanvasPanel extends JPanel {
+	private final Color TRANSPARENT = new Color(0, 0, 0, 0);
+	private final Color YELLOW = new Color(250, 241, 37);
+	private final Color CYAN = new Color(48, 215, 252);
+	private final Color GREEN = new Color(97, 218, 55);
+	private final Color ORANGE = new Color(255, 126, 54);
+	private final Color PINK = new Color(239, 54, 188);
+	private final Color RED = new Color(241, 0, 0);
+	private final Color WHITE = new Color(255, 255, 255);
+	private final Color GRAY = new Color(217, 217, 217);
+	private final Color BLACK = new Color(0, 0, 0);
 	private final Color BKGD = new Color(210, 226, 243);
-//	private final Color BKGD = new Color(202, 199, 195);
 	private ArrayList<Color> colors = new ArrayList<>();
-	private Color defaultFillColor = new Color(217, 217, 217);
-	private Color defaultStrokeColor = Color.BLACK;
+	private Color defaultFillColor = GRAY;
+	private Color defaultStrokeColor = BLACK;
 	private float defaultStrokeWeight = 1.0f;
 	private ToolPanel t;
 	private DrawingPanel d;
@@ -25,7 +34,7 @@ public class ShapeCanvasPanel extends JPanel {
 		
 		d = new DrawingPanel(defaultFillColor, defaultStrokeColor, defaultStrokeWeight);
 		i = new InspectorPanel(colors);
-		t = new ToolPanel(colors);
+		t = new ToolPanel(colors, defaultFillColor, defaultStrokeColor);
 		l = new ListPanel();
 		
 		ColorComboActionListener cListen = new ColorComboActionListener(colors, d);
@@ -60,17 +69,18 @@ public class ShapeCanvasPanel extends JPanel {
 	}
 	
 	public void initColors() {
-		colors.add(new Color(0, 0, 0, 0));
-		colors.add(new Color(253, 246, 96));
-		colors.add(new Color(151, 222, 237));
-		colors.add(Color.BLACK);
-		colors.add(Color.WHITE);
-		colors.add(Color.RED);
-		colors.add(Color.YELLOW);
-		colors.add(Color.CYAN);
-		colors.add(Color.GREEN);
-		colors.add(new Color(217, 217, 217));
-		colors.add(Color.BLUE);
+		colors.add(TRANSPARENT);
+		colors.add(YELLOW);
+		colors.add(CYAN);
+		colors.add(GREEN);
+		colors.add(ORANGE);
+		colors.add(PINK);
+		colors.add(RED);
+		colors.add(WHITE);
+		colors.add(GRAY);
+		colors.add(BLACK);
+//		colors.add(new Color(217, 217, 217));
+//		colors.add(Color.BLUE);
 	}
 	
 	public LinkedList<NamedShape> getShapeState(){

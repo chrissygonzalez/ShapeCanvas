@@ -1,6 +1,5 @@
 package shapecanvas;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -11,7 +10,6 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.util.Enumeration;
 import java.util.LinkedList;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 
@@ -24,10 +22,10 @@ public class DrawingPanel extends JPanel {
 	private float defaultStrokeWidth;
 	private int prevX;
 	private int prevY;
-	private boolean drawingCircles = false;
+	private String drawingShape;
 	
 	public DrawingPanel(Color fill, Color stroke, float strokeWeight) {
-		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		setPanelCursor("draw");
 		this.rModel = new ShapeModel();
 		this.setBackground(Color.WHITE);
 		defaultStrokeColor = stroke;
@@ -42,8 +40,16 @@ public class DrawingPanel extends JPanel {
 		this.addMouseMotionListener(dListen);
 	}
 	
-	public void setDrawingCircles(boolean c) {
-		drawingCircles = c;
+	public void setPanelCursor(String mode) {
+		if(mode.equals("draw")) {
+			setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		} else {
+			setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		}
+	}
+	
+	public void setDrawingShape(String s) {
+		drawingShape = s;
 	}
 	
 	public void setNewStartPoint(Point startPoint) {
@@ -113,8 +119,10 @@ public class DrawingPanel extends JPanel {
 	public NamedShape completeShape() {
 		NamedShape temp = null;
 		if (shape.width != 0 || shape.height != 0){
-			if(drawingCircles) {
+			if(drawingShape.equals("circle")) {
 				temp = new NamedCircle(defaultStrokeColor, defaultFillColor, defaultStrokeWidth, shape);
+			} else if(drawingShape.equals("triangle")){
+				temp = new NamedTriangle(defaultStrokeColor, defaultFillColor, defaultStrokeWidth, shape);
 			} else {
 				temp = new NamedRectangle(defaultStrokeColor, defaultFillColor, defaultStrokeWidth, shape);
 			}
@@ -155,20 +163,13 @@ public class DrawingPanel extends JPanel {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		rModel.drawAll(g);
-		
 		if (shape != null){
-			if(drawingCircles) {
-				g2d.setStroke(new BasicStroke(defaultStrokeWidth));
-				g2d.setColor(defaultFillColor);
-				g2d.fillOval(shape.x, shape.y, shape.width, shape.height);
-				g2d.setColor(defaultStrokeColor);
-				g2d.drawOval(shape.x, shape.y, shape.width, shape.height);
+			if(drawingShape.equals("circle")) {
+				NamedCircle.drawCircle(g2d, shape, defaultStrokeColor, defaultFillColor, defaultStrokeWidth);
+			} else if(drawingShape.equals("triangle")) {
+				NamedTriangle.drawTriangle(g2d, shape, defaultStrokeColor, defaultFillColor, defaultStrokeWidth);
 			} else {
-				g2d.setStroke(new BasicStroke(defaultStrokeWidth));
-				g2d.setColor(defaultFillColor);
-				g2d.fill(shape);
-				g2d.setColor(defaultStrokeColor);
-				g2d.draw( shape );
+				NamedRectangle.drawRectangle(g2d, shape, defaultStrokeColor, defaultFillColor, defaultStrokeWidth);
 			}
 		}
 		g2d.dispose();

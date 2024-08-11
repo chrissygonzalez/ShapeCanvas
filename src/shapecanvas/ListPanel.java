@@ -76,7 +76,7 @@ public class ListPanel extends JPanel {
 	public void setSelected(NamedShape r) {
 		list.clearSelection();
 		deleteBtn.setEnabled(false);
-		
+
 		if(r != null) {
 			deleteBtn.setEnabled(true);
 			int size = listModel.getSize();

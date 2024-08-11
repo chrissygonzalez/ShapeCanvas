@@ -2,19 +2,19 @@ package shapecanvas;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Shape;
+import java.awt.Rectangle;
 import java.io.Serializable;
 
 abstract class NamedShape implements Serializable {
 	final static Color selectedColor = Color.BLUE;
 	static int count = 0;
-	private Shape shape;
+	private Rectangle shape;
 	private Color strokeColor;
 	private Color fillColor;
 	private float strokeWidth;
 	private boolean selected;
 	
-	public NamedShape(Color sColor, Color fColor, float strokeWidth, Shape s) {
+	public NamedShape(Color sColor, Color fColor, float strokeWidth, Rectangle s) {
 		this.strokeColor = sColor;
 		this.fillColor = fColor;
 		this.strokeWidth = strokeWidth;
@@ -53,7 +53,7 @@ abstract class NamedShape implements Serializable {
 		this.strokeWidth = s;
 	}
 	
-	public Shape getShape() {
+	public Rectangle getShape() {
 		return this.shape;
 	}
 	

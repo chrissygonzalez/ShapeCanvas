@@ -33,6 +33,10 @@ class NamedTriangle extends NamedShape {
 		g2d.fillPolygon(xs, ys, 3);
 		g2d.setColor(super.getStrokeColor());
 		g2d.drawPolygon(xs, ys, 3);
+		
+		if(super.getSelected()) {
+			super.drawHandles(g2d);
+		}
 	}
 	
 	public static void drawTriangle(Graphics2D g2d, Rectangle rect, Color sColor, Color fColor, float strokeWidth) {

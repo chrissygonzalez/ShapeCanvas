@@ -19,12 +19,17 @@ public class InspectorActionListener extends FocusAdapter implements ActionListe
 		String fieldText = ((JTextField) e.getSource()).getText();
 		
 		if(!fieldText.isEmpty()) {
-			if(e.getActionCommand() == "strokeWidth") {
-				Float value = Float.parseFloat(fieldText);
-				d.updateStrokeWeight(value);
-			} else {
-				Double value = Double.parseDouble(fieldText);
-				d.modifyShape(e.getActionCommand(), (int)Math.round(value));
+			try {
+				if(e.getActionCommand() == "strokeWidth") {
+					Float value = Float.parseFloat(fieldText);
+					d.updateStrokeWeight(value);
+				} else {
+					Double value = Double.parseDouble(fieldText);
+					d.modifyShape(e.getActionCommand(), (int)Math.round(value));
+				}
+			} catch(NumberFormatException err) {
+				JTextField field = (JTextField)e.getSource();
+				field.setText("");
 			}
 		}
 	}

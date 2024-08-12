@@ -23,6 +23,10 @@ public class DrawingPanel extends JPanel {
 	private int prevX;
 	private int prevY;
 	private String drawingShape;
+	private int startWidth = -1;
+	private int startHeight = -1;
+	private int startX = -1;
+	private int startY = -1;
 	
 	public DrawingPanel(Color fill, Color stroke, float strokeWeight) {
 		setPanelCursor("draw");
@@ -84,6 +88,10 @@ public class DrawingPanel extends JPanel {
 		return rModel.checkIfSelected(startPoint);
 	}
 	
+	public int getSelectedHandleIndex() {
+		return rModel.getSelectedHandleIndex();
+	}
+	
 	public void setSelectedShape(NamedShape r) {
 		rModel.setSelected(r);
 		repaint();
@@ -98,9 +106,10 @@ public class DrawingPanel extends JPanel {
 	}
 	
 	public void moveShape(MouseEvent e) {
-		if(rModel.getSelected() != null) {
+		if(rModel.getSelected() != null && rModel.getSelectedHandleIndex() < 0) {
 			Rectangle r = (Rectangle)rModel.getSelected().getShape();
 			r.setLocation(e.getX() + prevX, e.getY() + prevY);
+			rModel.getSelected().setHandles();
 			repaint();
 		}
 	}
@@ -112,6 +121,76 @@ public class DrawingPanel extends JPanel {
 		int height = Math.abs(startPoint.y - e.getY());
 
 		shape.setBounds(x, y, width, height);
+		
+		repaint();
+	}
+	
+	public void resetDimensions() {
+		startWidth = -1;
+	}
+	
+	public void expandSelectedShape(MouseEvent e) {
+		NamedShape selectedShape = rModel.getSelected();
+		int selectedHandleIndex = rModel.getSelectedHandleIndex();
+		Rectangle bounds = selectedShape.getShape();
+		if(startWidth < 0) {
+			startWidth = bounds.width;
+			startX = bounds.x;
+			startHeight = bounds.height;
+			startY = bounds.y;
+		}
+		
+		int x = 0;
+		int y = 0;
+		int width = 0;
+		int height = 0;
+		
+		if(selectedHandleIndex == 0) {
+			x = e.getX();
+			y = e.getY();
+			width = startWidth - (x - startX);
+			height = startHeight - (y - startY);
+		} else if(selectedHandleIndex == 1) {
+			int newX = e.getX();
+			x = Math.min(startX, newX);
+			y = e.getY();
+			
+			int startRightEdge = startX + startWidth;
+			int rightEdge = Math.max(startX, newX);
+			int wDiff = rightEdge - startRightEdge;
+
+			width = startWidth + wDiff;
+			height = startHeight - (y - startY);
+		} else if(selectedHandleIndex == 2) {
+			int newY = e.getY();
+			x = e.getX();
+			y = Math.min(startY, newY);
+			
+			int startBottomEdge = startY + startHeight;
+			int bottomEdge = Math.max(startY, newY);
+			int hDiff = bottomEdge - startBottomEdge;
+			
+			width = startWidth - (x - startX);
+			height = startHeight + hDiff;
+		} else {
+			int newX = e.getX();
+			int newY = e.getY();
+			x = Math.min(startX, newX);
+			y = Math.min(startY, newY);
+			
+			int startRightEdge = startX + startWidth;
+			int rightEdge = Math.max(startX, newX);
+			int wDiff = rightEdge - startRightEdge;
+			
+			int startBottomEdge = startY + startHeight;
+			int bottomEdge = Math.max(startY, newY);
+			int hDiff = bottomEdge - startBottomEdge;
+
+			width = startWidth + wDiff;
+			height = startHeight + hDiff;
+		}
+
+		bounds.setBounds(x, y, width, height);
 		
 		repaint();
 	}

@@ -21,9 +21,14 @@ public class ToolListener implements ActionListener {
 		if(e.getActionCommand() == "select"){
 			d.setPanelCursor("select");
 		} else if(e.getActionCommand() == "stroke weight"){
-			String fieldText = ((JTextField) e.getSource()).getText();
-			Float value = Float.parseFloat(fieldText);
-			d.setStrokeWeight(value);
+			JTextField field = (JTextField)e.getSource();
+			String text = field.getText();
+			try {
+				Float value = Float.parseFloat(text);
+				d.setStrokeWeight(value);
+			} catch(NumberFormatException err) {
+				field.setText("1.0");
+			}
 		} else {
 			d.setPanelCursor("draw");
 			d.setSelectedShape(null);

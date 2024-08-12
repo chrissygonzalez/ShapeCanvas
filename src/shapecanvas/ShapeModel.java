@@ -12,13 +12,14 @@ import java.util.LinkedList;
 public class ShapeModel {
 	private LinkedList<NamedShape> shapes;
 	private NamedShape selected;
+//	private Rectangle selectedHandle;
+	private int selectedHandleIndex;
 	
 	public ShapeModel() {
 		shapes = new LinkedList<NamedShape>();
 	}
 	
 	public void addShape(Color strokeColor, Color fillColor, float strokeWidth, Shape shape) {
-		// TODO: add type of shape based on tool selection
 		NamedShape s = new NamedRectangle(strokeColor, fillColor, strokeWidth, (Rectangle)shape);
 		shapes.add(0, s);
 	}
@@ -28,7 +29,6 @@ public class ShapeModel {
 	}
 	
 	public void updateShape(NamedShape s, int x, int y, int width, int height) {
-		// TODO: make work for all types of shapes
 		Rectangle r = (Rectangle)s.getShape();
 		r.setBounds(x, y, width, height);
 	}
@@ -66,13 +66,22 @@ public class ShapeModel {
 				height = value; break;
 		}
 		
-		// TODO: make work for all types of shapes
 		Rectangle r = (Rectangle)selected.getShape();
 		r.setBounds(x, y, width, height);
 	}
 	
 	public NamedShape checkIfSelected(Point startPoint) {
-		NamedShape currSelected = null;
+		NamedShape currSelected = selected;
+		
+		if(currSelected != null) {
+			int handleIndex = checkIfHandleSelected(startPoint);
+			if(handleIndex < 0) {
+				currSelected = null;
+				selectedHandleIndex = -1;
+			} else {
+				selectedHandleIndex = handleIndex;
+			}
+		}
 		
 		for(int i = 0; i < shapes.size(); i++) {
 			NamedShape r = shapes.get(i);
@@ -88,6 +97,18 @@ public class ShapeModel {
 		return currSelected;
 	}
 	
+	public int checkIfHandleSelected(Point startPoint) {
+		Rectangle[] handles = selected.getHandles();
+		if(handles == null) return -1;
+
+		for(int i = 0; i < handles.length; i++) {
+			if(handles[i].contains(startPoint)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
 	public void setSelected(NamedShape r) {
 		if(selected != null && !selected.equals(r)) {
 			selected.setSelected(false);
@@ -101,6 +122,10 @@ public class ShapeModel {
 	
 	public NamedShape getSelected() {
 		return this.selected;
+	}
+	
+	public int getSelectedHandleIndex() {
+		return this.selectedHandleIndex;
 	}
 	
 	public LinkedList<NamedShape> getShapes(){

@@ -24,6 +24,10 @@ public class NamedCircle extends NamedShape implements Serializable {
 		g2d.fillOval(rect.x, rect.y, rect.width, rect.height);
 		g2d.setColor(super.getStrokeColor());
 		g2d.drawOval(rect.x, rect.y, rect.width, rect.height);
+		
+		if(super.getSelected()) {
+			super.drawHandles(g2d);
+		}
 	}
 	
 	public static void drawCircle(Graphics2D g2d, Rectangle rect, Color sColor, Color fColor, float strokeWidth) {

@@ -41,6 +41,10 @@ class DrawingListener extends MouseAdapter {
 	
 	public void mouseDragged(MouseEvent e){
 		String toolMode = toolP.getToolMode();
+		int selectedHandleIndex = drawP.getSelectedHandleIndex();
+		if(toolMode == "select" && selectedHandleIndex >= 0) {
+			drawP.expandSelectedShape(e);
+		}
 		if(toolMode != "select") {
 			drawP.expandShape(e);
 		} else {
@@ -53,6 +57,8 @@ class DrawingListener extends MouseAdapter {
 		if(toolMode != "select") {
 			drawP.completeShape();
 			list.updateList(drawP.getShapes(), null);
+		} else {
+			drawP.resetDimensions();
 		}
 	}
 }

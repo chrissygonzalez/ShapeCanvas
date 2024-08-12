@@ -23,6 +23,10 @@ public class NamedRectangle extends NamedShape implements Serializable {
 		g2d.fill(super.getShape());
 		g2d.setColor(super.getStrokeColor());
 		g2d.draw(super.getShape());
+		
+		if(super.getSelected()) {
+			super.drawHandles(g2d);
+		}
 	}
 	
 	public static void drawRectangle(Graphics2D g2d, Rectangle rect, Color sColor, Color fColor, float strokeWidth) {

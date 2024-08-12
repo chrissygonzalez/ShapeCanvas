@@ -15,6 +15,11 @@ class NamedTriangle extends NamedShape {
 		this.name = "Triangle " + count++;
 	}
 	
+	public NamedTriangle(NamedTriangle t) {
+		super(t);
+		this.name = "Triangle " + count++;
+	}
+	
 	public void draw(Graphics g) {
 		Rectangle shape = super.getShape();
 		Graphics2D g2d = (Graphics2D)g;

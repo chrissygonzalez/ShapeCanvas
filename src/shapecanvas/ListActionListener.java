@@ -14,9 +14,15 @@ class ListActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		l.deleteAndUpdateShapes();
-		d.setUpdatedShapes(l.getListModel(), null);
-		l.setDeleteButtonState(null);
+		if(e.getActionCommand() == "delete") {
+			l.deleteAndUpdateShapes();
+			d.setUpdatedShapes(l.getListModel(), null);
+			l.setListButtonState(null);
+		} else if(e.getActionCommand() == "copy"){
+			l.copyAndUpdateShapes();
+			d.setUpdatedShapes(l.getListModel(), null);
+			d.setSelectedShape(l.getListModelIndex(0));
+		}
 	}
 	
 }

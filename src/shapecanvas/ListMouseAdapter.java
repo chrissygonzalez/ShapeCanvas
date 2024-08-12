@@ -19,7 +19,7 @@ class ListMouseAdapter extends MouseAdapter {
     	dragSourceIndex = l.getSelectedIndex();
     	NamedShape selected = dragSourceIndex >= 0 ? l.getListModelIndex(dragSourceIndex) : null;
     	d.setSelectedShape(selected);
-    	l.setDeleteButtonState(selected);
+    	l.setListButtonState(selected);
     	mouseDragging = true;
     }
 

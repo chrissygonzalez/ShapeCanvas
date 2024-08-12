@@ -145,51 +145,37 @@ public class DrawingPanel extends JPanel {
 		int width = 0;
 		int height = 0;
 		
-		if(selectedHandleIndex == 0) {
+		if(selectedHandleIndex == 0 || selectedHandleIndex == 2) {
 			x = e.getX();
-			y = e.getY();
 			width = startWidth - (x - startX);
-			height = startHeight - (y - startY);
-		} else if(selectedHandleIndex == 1) {
+		}
+		if(selectedHandleIndex == 1 || selectedHandleIndex == 3) {
 			int newX = e.getX();
 			x = Math.min(startX, newX);
-			y = e.getY();
+			x = Math.min(startX, newX);
 			
 			int startRightEdge = startX + startWidth;
 			int rightEdge = Math.max(startX, newX);
 			int wDiff = rightEdge - startRightEdge;
 
 			width = startWidth + wDiff;
+		}
+		
+		if(selectedHandleIndex == 0 || selectedHandleIndex == 1) {
+			y = e.getY();
 			height = startHeight - (y - startY);
-		} else if(selectedHandleIndex == 2) {
+		}
+		if(selectedHandleIndex == 2 || selectedHandleIndex == 3) {
 			int newY = e.getY();
-			x = e.getX();
 			y = Math.min(startY, newY);
 			
 			int startBottomEdge = startY + startHeight;
 			int bottomEdge = Math.max(startY, newY);
 			int hDiff = bottomEdge - startBottomEdge;
 			
-			width = startWidth - (x - startX);
-			height = startHeight + hDiff;
-		} else {
-			int newX = e.getX();
-			int newY = e.getY();
-			x = Math.min(startX, newX);
-			y = Math.min(startY, newY);
-			
-			int startRightEdge = startX + startWidth;
-			int rightEdge = Math.max(startX, newX);
-			int wDiff = rightEdge - startRightEdge;
-			
-			int startBottomEdge = startY + startHeight;
-			int bottomEdge = Math.max(startY, newY);
-			int hDiff = bottomEdge - startBottomEdge;
-
-			width = startWidth + wDiff;
 			height = startHeight + hDiff;
 		}
-
+		
 		bounds.setBounds(x, y, width, height);
 		
 		repaint();

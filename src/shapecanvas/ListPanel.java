@@ -23,18 +23,28 @@ public class ListPanel extends JPanel {
 	private JScrollPane scrollPane;
 	private DefaultListModel<NamedShape> listModel;
 	private JButton deleteBtn;
+	private JButton copyBtn;
 	
 	public ListPanel() {
 		list = new JList<NamedShape>();
 		listModel = new DefaultListModel<NamedShape>();
-		deleteBtn = new JButton("Delete selected");
+		deleteBtn = new JButton("Delete");
 		deleteBtn.setEnabled(false);
+		deleteBtn.setActionCommand("delete");
+		copyBtn = new JButton("Copy");
+		copyBtn.setEnabled(false);
+		copyBtn.setActionCommand("copy");
 		
 		scrollPane = new JScrollPane(list);
 		scrollPane.setPreferredSize(new Dimension(155, 215));
 		JPanel box = new JPanel(new BorderLayout());
 		box.setOpaque(false);
-		box.add(deleteBtn, BorderLayout.CENTER);
+		
+		JPanel btns = new JPanel(new BorderLayout());
+		btns.setOpaque(false);
+		btns.add(deleteBtn, BorderLayout.WEST);
+		btns.add(copyBtn, BorderLayout.EAST);
+		box.add(btns, BorderLayout.CENTER);
 		box.add(scrollPane, BorderLayout.SOUTH);
 		add(box, BorderLayout.CENTER);
 		
@@ -48,6 +58,7 @@ public class ListPanel extends JPanel {
 		list.addMouseListener(lm);
 		list.addMouseMotionListener(lm);
 		deleteBtn.addActionListener(lAction);
+		copyBtn.addActionListener(lAction);
 	}
 	
 	public void updateList(LinkedList<NamedShape> shapes, NamedShape selected) {
@@ -65,20 +76,24 @@ public class ListPanel extends JPanel {
 		}
 	}
 	
-	public void setDeleteButtonState(NamedShape r) {
+	public void setListButtonState(NamedShape r) {
 		if(r == null) {
 			deleteBtn.setEnabled(false);
+			copyBtn.setEnabled(false);
 		} else {
 			deleteBtn.setEnabled(true);
+			copyBtn.setEnabled(true);
 		}
 	}
 	
 	public void setSelected(NamedShape r) {
 		list.clearSelection();
 		deleteBtn.setEnabled(false);
+		copyBtn.setEnabled(false);
 
 		if(r != null) {
 			deleteBtn.setEnabled(true);
+			copyBtn.setEnabled(true);
 			int size = listModel.getSize();
 			int index = 0;
 			while(index < size) {
@@ -107,6 +122,24 @@ public class ListPanel extends JPanel {
 	public DefaultListModel<NamedShape> deleteAndUpdateShapes(){
 		int selectedIndex = list.getSelectedIndex();
 		removeFromListModel(selectedIndex);
+		return getListModel();
+	}
+	
+	public DefaultListModel<NamedShape> copyAndUpdateShapes(){
+		int selectedIndex = list.getSelectedIndex();
+		NamedShape selected = listModel.get(selectedIndex);
+		
+		NamedShape newShape = null;
+		if(selected instanceof NamedRectangle) {
+			newShape = new NamedRectangle((NamedRectangle) selected);
+		} else if(selected instanceof NamedCircle) {
+			newShape = new NamedCircle((NamedCircle) selected);
+		} else {
+			newShape = new NamedTriangle((NamedTriangle) selected);
+		}
+		
+		addToListModel(0, newShape);
+		setSelected(newShape);
 		return getListModel();
 	}
 	

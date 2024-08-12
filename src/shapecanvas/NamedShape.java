@@ -28,6 +28,18 @@ abstract class NamedShape implements Serializable {
 		this.selected = false;
 	}
 	
+	public NamedShape(NamedShape s) {
+		Rectangle copied = new Rectangle(s.getShape());
+		Rectangle bounds = copied.getBounds();
+		copied.setBounds(bounds.x + 15, bounds.y - 15, bounds.width, bounds.height);
+		
+		this.strokeColor = s.getStrokeColor();
+		this.fillColor = s.getFillColor();
+		this.strokeWidth = s.getStrokeWidth();
+		this.shape = copied;
+		this.selected = false;
+	}
+	
 	abstract public void draw(Graphics g);
 	
 	public void setStrokeColor(Color c) {

@@ -16,6 +16,11 @@ public class NamedRectangle extends NamedShape implements Serializable {
 		this.name = "Rectangle " + count++;
 	}
 	
+	public NamedRectangle(NamedRectangle r) {
+		super(r);
+		this.name = "Rectangle " + count++;
+	}
+	
 	public void draw(Graphics g) {
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.setStroke(new BasicStroke(super.getStrokeWidth()));

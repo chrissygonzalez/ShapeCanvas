@@ -16,6 +16,11 @@ public class NamedCircle extends NamedShape implements Serializable {
 		this.name = "Circle " + count++;
 	}
 	
+	public NamedCircle(NamedCircle c) {
+		super(c);
+		this.name = "Circle " + count++;
+	}
+	
 	public void draw(Graphics g) {
 		Rectangle rect = super.getShape();
 		Graphics2D g2d = (Graphics2D)g;

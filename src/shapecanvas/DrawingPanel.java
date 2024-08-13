@@ -152,13 +152,9 @@ public class DrawingPanel extends JPanel {
 		if(selectedHandleIndex == 1 || selectedHandleIndex == 3) {
 			int newX = e.getX();
 			x = Math.min(startX, newX);
-			x = Math.min(startX, newX);
-			
-			int startRightEdge = startX + startWidth;
 			int rightEdge = Math.max(startX, newX);
-			int wDiff = rightEdge - startRightEdge;
 
-			width = startWidth + wDiff;
+			width = rightEdge - x;
 		}
 		
 		if(selectedHandleIndex == 0 || selectedHandleIndex == 1) {
@@ -168,12 +164,9 @@ public class DrawingPanel extends JPanel {
 		if(selectedHandleIndex == 2 || selectedHandleIndex == 3) {
 			int newY = e.getY();
 			y = Math.min(startY, newY);
-			
-			int startBottomEdge = startY + startHeight;
 			int bottomEdge = Math.max(startY, newY);
-			int hDiff = bottomEdge - startBottomEdge;
-			
-			height = startHeight + hDiff;
+
+			height = bottomEdge - y;
 		}
 		
 		bounds.setBounds(x, y, width, height);

@@ -22,6 +22,20 @@ public class NamedRectangle extends NamedShape implements Serializable {
 	}
 	
 	public void draw(Graphics g) {
+		Rectangle shape = super.getShape();
+		
+		if(shape.height < 0) {
+			int newHeight = shape.height * -1;
+			int newY = shape.y - newHeight;
+			shape.setBounds(shape.x, newY, shape.width, newHeight);
+		}
+		
+		if(shape.width < 0) {
+			int newWidth = shape.width * -1;
+			int newX = shape.x - newWidth;
+			shape.setBounds(newX, shape.y, newWidth, shape.height);
+		}
+		
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.setStroke(new BasicStroke(super.getStrokeWidth()));
 		g2d.setColor(super.getFillColor());

@@ -22,13 +22,26 @@ public class NamedCircle extends NamedShape implements Serializable {
 	}
 	
 	public void draw(Graphics g) {
-		Rectangle rect = super.getShape();
+		Rectangle shape = super.getShape();
+		
+		if(shape.height < 0) {
+			int newHeight = shape.height * -1;
+			int newY = shape.y - newHeight;
+			shape.setBounds(shape.x, newY, shape.width, newHeight);
+		}
+		
+		if(shape.width < 0) {
+			int newWidth = shape.width * -1;
+			int newX = shape.x - newWidth;
+			shape.setBounds(newX, shape.y, newWidth, shape.height);
+		}
+		
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.setStroke(new BasicStroke(super.getStrokeWidth()));
 		g2d.setColor(super.getFillColor());
-		g2d.fillOval(rect.x, rect.y, rect.width, rect.height);
+		g2d.fillOval(shape.x, shape.y, shape.width, shape.height);
 		g2d.setColor(super.getStrokeColor());
-		g2d.drawOval(rect.x, rect.y, rect.width, rect.height);
+		g2d.drawOval(shape.x, shape.y, shape.width, shape.height);
 		
 		if(super.getSelected()) {
 			super.drawHandles(g2d);
